@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, LinearProgress, Typography } from "@material-ui/core";
-import QuestionCard from "./HomeQuestionCard";
+import QuestionCard from "./QuestionCard";
 
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
@@ -17,27 +17,27 @@ class HomeComponent extends Component {
 
   getQuestionQuery(id) {
     return gql`
-    query {
-      getQuestion(args: { _id: "${id}" }) {
-        _id
-        title
-        body
-        tags
-        views
-        answers {
+      query {
+        getQuestion(args: { _id: "${id}" }) {
           _id
+          title
+          body
+          tags
+          views
+          answers {
+            _id
+          }
+          votes
+          postedOn
         }
-        votes
-        postedOn
       }
-    }
     `;
   }
 
   buildQuestionCard(data) {
     return (
       <Container size="sm">
-        <QuestionCard quesData={data} />
+        <QuestionCard quesData={{ routeButton: true, ...data }} />
       </Container>
     );
   }

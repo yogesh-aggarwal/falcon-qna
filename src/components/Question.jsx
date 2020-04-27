@@ -2,15 +2,18 @@ import React, { Component } from "react";
 import { gql } from "apollo-boost";
 import { Query } from "react-apollo";
 import {
-  //   Card,
-  //   CardContent,
-  //   CardActions,
+  Card,
+  CardContent,
+  CardActions,
   //   Button,
   //   IconButton,
-  //   Chip,
+  Chip,
   Typography,
   LinearProgress,
+  Container,
 } from "@material-ui/core";
+
+import QuestionCard from "./QuestionCard";
 
 class QuestionComponent extends Component {
   QUESTION_QUERY;
@@ -21,16 +24,23 @@ class QuestionComponent extends Component {
 
     this.QUESTION_QUERY = gql`
       query {
-          getQuestion(args: { _id: "${this.props.match.params.id}" }) {
+        getQuestion(args: { _id: "${this.props.match.params.id}" }) {
           _id
+          title
           body
-          owner {
-              name
-              isBanned
+          tags
+          views
+          answers {
+            _id
           }
+          votes
+          postedOn
+        }
       }
-    }`;
+    `;
   }
+
+  fetchQuestion() {}
 
   loadingComponent() {
     return <LinearProgress color="secondary" />;
@@ -44,8 +54,31 @@ class QuestionComponent extends Component {
     );
   }
 
-  question() {
-    return <Typography variant="h6">Question Data is here!</Typography>;
+  getQuestionTags() {
+    return <Chip label="Hello" />;
+  }
+
+  getQuestionCardHeader(data) {
+    return (
+      <div>
+        <div className="tags">{this.getQuestionTags()}</div>
+        <div className="body" style={{ marginTop: "1rem" }}>
+          <Typography variant="h5">{data.title}</Typography>
+          <Typography variant="body2">{data.body}</Typography>
+        </div>
+      </div>
+    );
+  }
+
+  getQuestionCardFooter(data) {}
+
+  getQuestion(data) {
+    return (
+      <Card variant="outlined">
+        <CardContent>{this.getQuestionCardHeader(data)}</CardContent>
+        <CardActions>{this.getQuestionCardFooter(data)}</CardActions>
+      </Card>
+    );
   }
 
   render() {
@@ -54,7 +87,12 @@ class QuestionComponent extends Component {
         {({ loading, err, data }) => {
           if (loading) return this.loadingComponent();
           if (err || data === undefined) return this.errorComponent();
-          return this.question();
+          data = data["getQuestion"];
+          return (
+            <Container size="sm">
+              <QuestionCard quesData={data} />
+            </Container>
+          );
         }}
       </Query>
     );

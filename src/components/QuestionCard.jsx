@@ -12,15 +12,122 @@ import {
   StarBorder,
   Visibility,
   QuestionAnswerOutlined,
+  ThumbUpAltOutlined,
+  ThumbDownAltOutlined,
   ThumbsUpDownOutlined,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
+class Widgets {
+  constructor(data) {
+    this.data = data;
+    console.log(this.data);
+  }
+
+  getViewsCount() {
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          marginLeft: "1.5rem",
+        }}
+      >
+        <Visibility color="action" style={{ marginRight: ".5rem" }} />
+        <Typography>{this.data.views} Views</Typography>
+      </div>
+    );
+  }
+
+  getAnswerCount() {
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          marginLeft: "1.5rem",
+        }}
+      >
+        <QuestionAnswerOutlined
+          color="action"
+          style={{ marginRight: ".5rem" }}
+        />
+        <Typography>{this.data.answers.length} Answers</Typography>
+      </div>
+    );
+  }
+
+  getVotesCount(icon = true) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        {icon && (
+          <ThumbsUpDownOutlined
+            color="action"
+            style={{ marginRight: ".5rem", marginLeft: "1.5rem" }}
+          />
+        )}
+        <Typography>{this.data.votes} votes</Typography>
+      </div>
+    );
+  }
+
+  getButtons() {
+    //? Component is used from home
+    if (this.data.routeButton) {
+      return (
+        <Link
+          to={`/question/${this.data._id}`}
+          style={{ textDecoration: "none" }}
+        >
+          <Button color="primary">Let me try</Button>
+        </Link>
+      );
+    } else {
+      //? Component is used from question page, voting buttons should be shown
+      return (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <IconButton>
+            <ThumbUpAltOutlined />
+          </IconButton>
+          {this.getVotesCount(false)}
+          <IconButton>
+            <ThumbDownAltOutlined />
+          </IconButton>
+        </div>
+      );
+    }
+  }
+
+  getCardBody() {
+    if (this.data.routeButton) {
+      return (
+        <Typography variant="body2">
+          {this.data.body.slice(0, 300)}...
+        </Typography>
+      );
+    } else {
+      return <Typography variant="body2">{this.data.body}</Typography>;
+    }
+  }
+}
+
 class QuestionCard extends Component {
   constructor(props) {
     super(props);
-    this.data = this.props.quesData;
     this.state = {};
+    this.data = this.props.quesData;
+    console.log(this.data);
+    this.widgets = new Widgets(this.data);
   }
 
   getTimeAgo(timestampDiff) {
@@ -54,7 +161,7 @@ class QuestionCard extends Component {
         <div className="tags">{this.getTagChips()}</div>
         <div className="body" style={{ marginTop: "1rem" }}>
           <Typography variant="h6">{this.data.title}</Typography>
-          <Typography variant="body2">{this.data.body}</Typography>
+          {this.widgets.getCardBody()}
         </div>
       </CardContent>
     );
@@ -70,51 +177,13 @@ class QuestionCard extends Component {
         }}
       >
         {/*//& Button */}
-        <Link
-          to={`/question/${this.data._id}`}
-          style={{ textDecoration: "none" }}
-        >
-          <Button color="primary">Let me try</Button>
-        </Link>
-        {/*//& Views Count */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginLeft: "1.5rem",
-          }}
-        >
-          <Visibility color="action" style={{ marginRight: ".5rem" }} />
-          <Typography>{this.data.views} Views</Typography>
-        </div>
+        {this.widgets.getButtons()}
+        {/*//& Views count */}
+        {this.widgets.getViewsCount()}
         {/*//& Answers count */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginLeft: "1.5rem",
-          }}
-        >
-          <QuestionAnswerOutlined
-            color="action"
-            style={{ marginRight: ".5rem" }}
-          />
-          <Typography>{this.data.votes} Answers</Typography>
-        </div>
+        {this.widgets.getAnswerCount()}
         {/*//& Votes count */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginLeft: "1.5rem",
-          }}
-        >
-          <ThumbsUpDownOutlined
-            color="action"
-            style={{ marginRight: ".5rem" }}
-          />
-          <Typography>{this.data.votes} votes</Typography>
-        </div>
+        {this.data.routeButton && this.widgets.getVotesCount()}
       </div>
     );
   }
