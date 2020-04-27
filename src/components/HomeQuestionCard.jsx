@@ -12,7 +12,9 @@ import {
   StarBorder,
   Visibility,
   QuestionAnswerOutlined,
+  ThumbsUpDownOutlined,
 } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 
 class QuestionCard extends Component {
   constructor(props) {
@@ -25,88 +27,142 @@ class QuestionCard extends Component {
     let seconds = timestampDiff / 1000;
     if (seconds <= 60) {
       return `${Math.floor(seconds)} sec`;
-    } else if (seconds > 60) {
+    } else if (60 < seconds && seconds < 3600) {
       return `${Math.floor(seconds / 60)} min`;
     } else if (seconds >= 3600) {
       return `${Math.floor(seconds / 60 / 60)} hr`;
     }
   }
 
-  render() {
+  getTagChips() {
+    return this.data.tags.map((tag) => {
+      return (
+        <Chip
+          clickable
+          size="small"
+          variant="outlined"
+          label={tag}
+          style={{ marginRight: ".5rem" }}
+        />
+      );
+    });
+  }
+
+  getCardHeaderContent() {
     return (
-      <Card variant="outlined" style={{ marginTop: "1rem" }}>
-        <CardContent>
-          <div className="tags">
-            {this.data.tags.map((tag) => {
-              return (
-                <Chip
-                  clickable
-                  size="small"
-                  variant="outlined"
-                  label={tag}
-                  style={{ marginRight: ".5rem" }}
-                />
-              );
-            })}
-          </div>
-          <div className="body" style={{ marginTop: "1rem" }}>
-            <Typography variant="h6">{this.data.title}</Typography>
-            <Typography variant="body2">{this.data.body}</Typography>
-          </div>
-        </CardContent>
-        <CardActions
+      <CardContent>
+        <div className="tags">{this.getTagChips()}</div>
+        <div className="body" style={{ marginTop: "1rem" }}>
+          <Typography variant="h6">{this.data.title}</Typography>
+          <Typography variant="body2">{this.data.body}</Typography>
+        </div>
+      </CardContent>
+    );
+  }
+
+  getFooterPrimaryActions() {
+    return (
+      <div
+        className="button"
+        style={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        {/*//& Button */}
+        <Link
+          to={`/question/${this.data._id}`}
+          style={{ textDecoration: "none" }}
+        >
+          <Button color="primary">Let me try</Button>
+        </Link>
+        {/*//& Views Count */}
+        <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
+            alignItems: "center",
+            marginLeft: "1.5rem",
           }}
         >
-          {/* Primary actions */}
-          <div
-            className="button"
-            style={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <Button color="primary">Take a look</Button>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginLeft: "1.5rem",
-              }}
-            >
-              <Visibility color="action" style={{ marginRight: ".5rem" }} />
-              <Typography>2 Views</Typography>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginLeft: "1.5rem",
-              }}
-            >
-              <QuestionAnswerOutlined
-                color="action"
-                style={{ marginRight: ".5rem" }}
-              />
-              <Typography>2 Answers</Typography>
-            </div>
-          </div>
-          {/* Secondary actions */}
-          <div
-            className="secondary-actions"
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            <Typography>
-              Posted {this.getTimeAgo(Date.now() - this.data.postedOn)} ago
-            </Typography>
-            <IconButton color="primary">
-              <StarBorder />
-            </IconButton>
-          </div>
-        </CardActions>
+          <Visibility color="action" style={{ marginRight: ".5rem" }} />
+          <Typography>{this.data.views} Views</Typography>
+        </div>
+        {/*//& Answers count */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginLeft: "1.5rem",
+          }}
+        >
+          <QuestionAnswerOutlined
+            color="action"
+            style={{ marginRight: ".5rem" }}
+          />
+          <Typography>{this.data.votes} Answers</Typography>
+        </div>
+        {/*//& Votes count */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginLeft: "1.5rem",
+          }}
+        >
+          <ThumbsUpDownOutlined
+            color="action"
+            style={{ marginRight: ".5rem" }}
+          />
+          <Typography>{this.data.votes} votes</Typography>
+        </div>
+      </div>
+    );
+  }
+
+  getFooterSecondaryActions() {
+    return (
+      <div
+        className="secondary-actions"
+        style={{ display: "flex", alignItems: "center" }}
+      >
+        <Typography>
+          Posted {this.getTimeAgo(Date.now() - this.data.postedOn)} ago
+        </Typography>
+        <IconButton color="primary">
+          <StarBorder />
+        </IconButton>
+      </div>
+    );
+  }
+
+  getCardFooterContent() {
+    return (
+      <CardActions
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+        }}
+      >
+        {/* Primary actions */}
+        {this.getFooterPrimaryActions()}
+        {/* Secondary actions */}
+        {this.getFooterSecondaryActions()}
+      </CardActions>
+    );
+  }
+
+  render() {
+    return (
+      <Card
+        variant="outlined"
+        key="b781b96f95825813d885c824"
+        style={{ marginTop: "1rem" }}
+      >
+        {/* Header */}
+        {this.getCardHeaderContent()}
+        {/* Footer */}
+        {this.getCardFooterContent()}
       </Card>
     );
   }

@@ -1,38 +1,75 @@
 import React, { Component } from "react";
-import { Container } from "@material-ui/core";
+import { Container, LinearProgress, Typography } from "@material-ui/core";
 import QuestionCard from "./HomeQuestionCard";
 
+import { Query } from "react-apollo";
+import { gql } from "apollo-boost";
+
 class HomeComponent extends Component {
-  state = {};
+  // state = { loading: true };
+  state = { loading: false };
+  questions = [];
+  questionIds = [
+    "5ea67c62ac5e620ff4057f2f",
+    "5ea67c71ac5e620ff4057f31",
+    "5ea67c73ac5e620ff4057f32",
+  ];
+
+  getQuestionQuery(id) {
+    return gql`
+    query {
+      getQuestion(args: { _id: "${id}" }) {
+        _id
+        title
+        body
+        tags
+        views
+        answers {
+          _id
+        }
+        votes
+        postedOn
+      }
+    }
+    `;
+  }
+
+  buildQuestionCard(data) {
+    return (
+      <Container size="sm">
+        <QuestionCard quesData={data} />
+      </Container>
+    );
+  }
+
+  renderQuestions() {
+    return this.questionIds.map((id) => {
+      return (
+        <Query query={this.getQuestionQuery(id)}>
+          {({ loading, err, data }) => {
+            if (data) {
+              data = data["getQuestion"];
+              return this.buildQuestionCard(data);
+            } else if (loading || !data) {
+              return <Typography></Typography>;
+            } else if (err) {
+              return <Typography variant="h6">Error</Typography>;
+            }
+          }}
+        </Query>
+      );
+    });
+    // {/* Setting loading to false */}
+    // this.setState({ loading: false });
+  }
+
   render() {
     return (
       <div>
-        <Container maxWidth="md">
-          <QuestionCard
-            quesData={{
-              title: "Question 1",
-              body: "Body of Question 1 in 300 words.",
-              tags: ["Angular 9", "AOT"],
-              postedOn: 1587873920268,
-            }}
-          />
-          <QuestionCard
-            quesData={{
-              title: "Question 2",
-              body: "Body of Question 2 in 300 words.",
-              tags: ["Python"],
-              postedOn: 1587873920268,
-            }}
-          />
-          <QuestionCard
-            quesData={{
-              title: "Question 3",
-              body: "Body of Question 3 in 300 words.",
-              tags: ["SuperUser"],
-              postedOn: 1587873920268,
-            }}
-          />
-        </Container>
+        {/* Progress indicator */}
+        {this.state.loading && <LinearProgress color="secondary" />}
+        {/* Questions */}
+        {this.renderQuestions()}
       </div>
     );
   }
