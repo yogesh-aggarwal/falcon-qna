@@ -6,7 +6,6 @@ import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
 
 class HomeComponent extends Component {
-  // state = { loading: true };
   state = { loading: false };
   questions = [];
   questionIds = [
@@ -23,10 +22,10 @@ class HomeComponent extends Component {
           title
           body
           tags
-          views
           answers {
             _id
           }
+          views
           votes
           postedOn
         }

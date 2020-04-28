@@ -2,11 +2,10 @@ import React, { Component } from "react";
 import { gql } from "apollo-boost";
 import { Query } from "react-apollo";
 import {
+  Box,
   Card,
   CardContent,
   CardActions,
-  //   Button,
-  //   IconButton,
   Chip,
   Typography,
   LinearProgress,
@@ -14,6 +13,7 @@ import {
 } from "@material-ui/core";
 
 import QuestionCard from "./QuestionCard";
+import AnswerCard from "./AnswerCard";
 
 class QuestionComponent extends Component {
   QUESTION_QUERY;
@@ -32,6 +32,9 @@ class QuestionComponent extends Component {
           views
           answers {
             _id
+            body
+            votes
+            postedOn
           }
           votes
           postedOn
@@ -90,7 +93,15 @@ class QuestionComponent extends Component {
           data = data["getQuestion"];
           return (
             <Container size="sm">
+              {/* //& Question Card */}
               <QuestionCard quesData={data} />
+              {/* //& Answers Cards */}
+              <Typography variant="h6" style={{marginTop: "2rem"}}>
+                <Box fontWeight={800}>{data.answers.length} Answers</Box>
+              </Typography>
+              {data.answers.map((answer) => {
+                return <AnswerCard ansData={answer} />;
+              })}
             </Container>
           );
         }}

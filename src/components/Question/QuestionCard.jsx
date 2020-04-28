@@ -17,6 +17,7 @@ import {
   ThumbsUpDownOutlined,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import * as tools from "../../tools";
 
 class QuestionCard extends Component {
   constructor(props) {
@@ -136,17 +137,6 @@ class QuestionCard extends Component {
     }
   }
 
-  getTimeAgo(timestampDiff) {
-    let seconds = timestampDiff / 1000;
-    if (seconds <= 60) {
-      return `${Math.floor(seconds)} sec`;
-    } else if (60 < seconds && seconds < 3600) {
-      return `${Math.floor(seconds / 60)} min`;
-    } else if (seconds >= 3600) {
-      return `${Math.floor(seconds / 60 / 60)} hr`;
-    }
-  }
-
   getTagChips() {
     return this.state.tags.map((tag) => {
       return (
@@ -201,7 +191,7 @@ class QuestionCard extends Component {
         style={{ display: "flex", alignItems: "center" }}
       >
         <Typography>
-          Posted {this.getTimeAgo(Date.now() - this.state.postedOn)} ago
+          Posted {tools.getTimeAgo(Date.now() - this.state.postedOn)} ago
         </Typography>
         <IconButton color="primary">
           <StarBorder />
