@@ -4,9 +4,9 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import ApolloClient from "apollo-boost";
 
 /// Components
-import NavbarComponent from "./components/Navbar";
-import HomeComponent from "./components/Home";
-import QuestionComponent from "./components/Question";
+import NavbarComponent from "./components/Navbar/Navbar";
+import HomeComponent from "./components/Home/Home";
+import QuestionComponent from "./components/Question/Question";
 /// Styles
 import "./App.css";
 

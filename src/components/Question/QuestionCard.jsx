@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import {
   Card,
   Button,
@@ -18,10 +18,18 @@ import {
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
-class Widgets {
-  constructor(data) {
-    this.data = data;
-    console.log(this.data);
+class QuestionCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = this.props.quesData;
+  }
+
+  incrementVotes() {
+    this.setState({ votes: this.state.votes + 1 });
+  }
+
+  decrementVotes() {
+    this.setState({ votes: this.state.votes - 1 });
   }
 
   getViewsCount() {
@@ -34,7 +42,7 @@ class Widgets {
         }}
       >
         <Visibility color="action" style={{ marginRight: ".5rem" }} />
-        <Typography>{this.data.views} Views</Typography>
+        <Typography>{this.state.views} Views</Typography>
       </div>
     );
   }
@@ -52,7 +60,7 @@ class Widgets {
           color="action"
           style={{ marginRight: ".5rem" }}
         />
-        <Typography>{this.data.answers.length} Answers</Typography>
+        <Typography>{this.state.answers.length} Answers</Typography>
       </div>
     );
   }
@@ -71,17 +79,17 @@ class Widgets {
             style={{ marginRight: ".5rem", marginLeft: "1.5rem" }}
           />
         )}
-        <Typography>{this.data.votes} votes</Typography>
+        <Typography>{this.state.votes} votes</Typography>
       </div>
     );
   }
 
   getButtons() {
     //? Component is used from home
-    if (this.data.routeButton) {
+    if (this.state.routeButton) {
       return (
         <Link
-          to={`/question/${this.data._id}`}
+          to={`/question/${this.state._id}`}
           style={{ textDecoration: "none" }}
         >
           <Button color="primary">Let me try</Button>
@@ -96,11 +104,19 @@ class Widgets {
             alignItems: "center",
           }}
         >
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              this.incrementVotes();
+            }}
+          >
             <ThumbUpAltOutlined />
           </IconButton>
           {this.getVotesCount(false)}
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              this.decrementVotes();
+            }}
+          >
             <ThumbDownAltOutlined />
           </IconButton>
         </div>
@@ -109,25 +125,15 @@ class Widgets {
   }
 
   getCardBody() {
-    if (this.data.routeButton) {
+    if (this.state.routeButton) {
       return (
         <Typography variant="body2">
-          {this.data.body.slice(0, 300)}...
+          {this.state.body.slice(0, 300)}...
         </Typography>
       );
     } else {
-      return <Typography variant="body2">{this.data.body}</Typography>;
+      return <Typography variant="body2">{this.state.body}</Typography>;
     }
-  }
-}
-
-class QuestionCard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.data = this.props.quesData;
-    console.log(this.data);
-    this.widgets = new Widgets(this.data);
   }
 
   getTimeAgo(timestampDiff) {
@@ -142,7 +148,7 @@ class QuestionCard extends Component {
   }
 
   getTagChips() {
-    return this.data.tags.map((tag) => {
+    return this.state.tags.map((tag) => {
       return (
         <Chip
           clickable
@@ -160,8 +166,8 @@ class QuestionCard extends Component {
       <CardContent>
         <div className="tags">{this.getTagChips()}</div>
         <div className="body" style={{ marginTop: "1rem" }}>
-          <Typography variant="h6">{this.data.title}</Typography>
-          {this.widgets.getCardBody()}
+          <Typography variant="h6">{this.state.title}</Typography>
+          {this.getCardBody()}
         </div>
       </CardContent>
     );
@@ -177,13 +183,13 @@ class QuestionCard extends Component {
         }}
       >
         {/*//& Button */}
-        {this.widgets.getButtons()}
+        {this.getButtons()}
         {/*//& Views count */}
-        {this.widgets.getViewsCount()}
+        {this.getViewsCount()}
         {/*//& Answers count */}
-        {this.widgets.getAnswerCount()}
+        {this.getAnswerCount()}
         {/*//& Votes count */}
-        {this.data.routeButton && this.widgets.getVotesCount()}
+        {this.state.routeButton && this.getVotesCount()}
       </div>
     );
   }
@@ -195,7 +201,7 @@ class QuestionCard extends Component {
         style={{ display: "flex", alignItems: "center" }}
       >
         <Typography>
-          Posted {this.getTimeAgo(Date.now() - this.data.postedOn)} ago
+          Posted {this.getTimeAgo(Date.now() - this.state.postedOn)} ago
         </Typography>
         <IconButton color="primary">
           <StarBorder />

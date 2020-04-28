@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, LinearProgress, Typography } from "@material-ui/core";
-import QuestionCard from "./QuestionCard";
+import QuestionCard from "../Question/QuestionCard";
 
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
