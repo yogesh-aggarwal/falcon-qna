@@ -1,16 +1,7 @@
 import React, { Component } from "react";
 import { gql } from "apollo-boost";
 import { Query } from "react-apollo";
-import {
-  Box,
-  Card,
-  CardContent,
-  CardActions,
-  Chip,
-  Typography,
-  LinearProgress,
-  Container,
-} from "@material-ui/core";
+import { Box, Container, LinearProgress, Typography } from "@material-ui/core";
 
 import QuestionCard from "./QuestionCard";
 import AnswerCard from "./AnswerCard";
@@ -43,8 +34,6 @@ class QuestionComponent extends Component {
     `;
   }
 
-  fetchQuestion() {}
-
   loadingComponent() {
     return <LinearProgress color="secondary" />;
   }
@@ -54,33 +43,6 @@ class QuestionComponent extends Component {
       <Typography variant="h6">
         Error occured while retrieving the question
       </Typography>
-    );
-  }
-
-  getQuestionTags() {
-    return <Chip label="Hello" />;
-  }
-
-  getQuestionCardHeader(data) {
-    return (
-      <div>
-        <div className="tags">{this.getQuestionTags()}</div>
-        <div className="body" style={{ marginTop: "1rem" }}>
-          <Typography variant="h5">{data.title}</Typography>
-          <Typography variant="body2">{data.body}</Typography>
-        </div>
-      </div>
-    );
-  }
-
-  getQuestionCardFooter(data) {}
-
-  getQuestion(data) {
-    return (
-      <Card variant="outlined">
-        <CardContent>{this.getQuestionCardHeader(data)}</CardContent>
-        <CardActions>{this.getQuestionCardFooter(data)}</CardActions>
-      </Card>
     );
   }
 
@@ -96,7 +58,7 @@ class QuestionComponent extends Component {
               {/* //& Question Card */}
               <QuestionCard quesData={data} />
               {/* //& Answers Cards */}
-              <Typography variant="h6" style={{marginTop: "2rem"}}>
+              <Typography variant="h6" style={{ marginTop: "2rem" }}>
                 <Box fontWeight={800}>{data.answers.length} Answers</Box>
               </Typography>
               {data.answers.map((answer) => {

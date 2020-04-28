@@ -1,12 +1,13 @@
 import React, { Component, useContext } from "react";
 import {
   Card,
-  Button,
-  IconButton,
   CardContent,
-  Chip,
-  Typography,
   CardActions,
+  Chip,
+  IconButton,
+  Button,
+  Tooltip,
+  Typography,
 } from "@material-ui/core";
 import {
   StarBorder,
@@ -35,14 +36,11 @@ class QuestionCard extends Component {
 
   getViewsCount() {
     return (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          marginLeft: "1.5rem",
-        }}
-      >
-        <Visibility color="action" style={{ marginRight: ".5rem" }} />
+      <div style={tools.styles.inlineItems}>
+        <Visibility
+          color="action"
+          style={{ marginRight: ".5rem", marginLeft: "1.5rem" }}
+        />
         <Typography>{this.state.views} Views</Typography>
       </div>
     );
@@ -50,16 +48,10 @@ class QuestionCard extends Component {
 
   getAnswerCount() {
     return (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          marginLeft: "1.5rem",
-        }}
-      >
+      <div style={tools.styles.inlineItems}>
         <QuestionAnswerOutlined
           color="action"
-          style={{ marginRight: ".5rem" }}
+          style={{ marginRight: ".5rem", marginLeft: "1.5rem" }}
         />
         <Typography>{this.state.answers.length} Answers</Typography>
       </div>
@@ -68,12 +60,7 @@ class QuestionCard extends Component {
 
   getVotesCount(icon = true) {
     return (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
+      <div style={tools.styles.inlineItems}>
         {icon && (
           <ThumbsUpDownOutlined
             color="action"
@@ -93,33 +80,40 @@ class QuestionCard extends Component {
           to={`/question/${this.state._id}`}
           style={{ textDecoration: "none" }}
         >
-          <Button color="primary">Let me try</Button>
+          {tools.AttachTooltip(
+            "Try to answer",
+            <Button color="primary">Let me try</Button>
+          )}
         </Link>
       );
     } else {
       //? Component is used from question page, voting buttons should be shown
       return (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <IconButton
-            onClick={() => {
-              this.incrementVotes();
-            }}
-          >
-            <ThumbUpAltOutlined />
-          </IconButton>
-          {this.getVotesCount(false)}
-          <IconButton
-            onClick={() => {
-              this.decrementVotes();
-            }}
-          >
-            <ThumbDownAltOutlined />
-          </IconButton>
+        <div style={tools.styles.inlineItems}>
+          {/* //& Upvote */}
+          {tools.AttachTooltip(
+            "Question should be promoted",
+            <IconButton
+              onClick={() => {
+                this.incrementVotes();
+              }}
+            >
+              <ThumbUpAltOutlined />
+            </IconButton>
+          )}
+          {/* //& Total Votes */}
+          {tools.AttachTooltip("Total votes", this.getVotesCount(false))}
+          {/* //& Downvote */}
+          {tools.AttachTooltip(
+            "Question should not be promoted",
+            <IconButton
+              onClick={() => {
+                this.decrementVotes();
+              }}
+            >
+              <ThumbDownAltOutlined />
+            </IconButton>
+          )}
         </div>
       );
     }
