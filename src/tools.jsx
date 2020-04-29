@@ -3,12 +3,13 @@ import { Tooltip } from "@material-ui/core";
 
 export const statics = {
   tooltipEnterDelay: 500,
+  serverAddress: "http://localhost",
 };
 export const styles = {
   inlineItems: { display: "flex", alignItems: "center" },
 };
 
-export const currentUser = "john"
+export const currentUser = "john";
 
 export function getTimeAgo(timestampDiff) {
   let seconds = timestampDiff / 1000;

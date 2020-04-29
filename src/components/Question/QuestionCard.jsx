@@ -25,13 +25,14 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import { gql } from "apollo-boost";
 
+let serverAddress = tools.statics.serverAddress;
 class QuestionCard extends Component {
   constructor(props) {
     super(props);
     this.state = this.props.quesData;
     this.client = new ApolloClient({
       link: new HttpLink({
-        uri: "http://localhost",
+        uri: serverAddress,
       }),
       cache: new InMemoryCache(),
     });
@@ -134,7 +135,7 @@ class QuestionCard extends Component {
     if (this.state.routeButton) {
       return (
         <Link
-          to={`/question/${this.state._id}`}
+          to={`/questions/${this.state._id}`}
           style={{ textDecoration: "none" }}
         >
           {tools.AttachTooltip(

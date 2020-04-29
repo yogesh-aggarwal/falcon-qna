@@ -9,10 +9,12 @@ import HomeComponent from "./components/Home/Home";
 import QuestionComponent from "./components/Question/Question";
 /// Styles
 import "./App.css";
+import NewQuestionComponent from "./components/Question/NewQuestion";
+import * as tools from "./tools";
 
 class App extends Component {
   client = new ApolloClient({
-    uri: "http://localhost",
+    uri: tools.statics.serverAddress,
   });
 
   render() {
@@ -22,8 +24,16 @@ class App extends Component {
           <ApolloProvider client={this.client}>
             <NavbarComponent />
             <Switch>
+              {/* For viewing questions */}
               <Route path="/" exact component={HomeComponent} />
-              <Route path="/question/:id" exact component={QuestionComponent} />
+              {/* For viewing SPECIFIC question */}
+              <Route
+                path="/questions/:id"
+                exact
+                component={QuestionComponent}
+              />
+              {/* For adding NEW Question */}
+              <Route path="/question" exact component={NewQuestionComponent} />
             </Switch>
           </ApolloProvider>
         </div>

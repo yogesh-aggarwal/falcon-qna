@@ -1,28 +1,24 @@
 import React, { Component } from "react";
-import { Container, LinearProgress, Typography } from "@material-ui/core";
+import {
+  Button,
+  Box,
+  Container,
+  LinearProgress,
+  Typography,
+} from "@material-ui/core";
 import QuestionCard from "../Question/QuestionCard";
+import { Link } from "react-router-dom";
 
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
 
 class HomeComponent extends Component {
   state = { loading: false };
-  questions = [];
-  questionIds = [
-    "5ea8072f694baa3e5c66a7dd",
-    "5ea80740694baa3e5c66a7de",
-    "5ea80743694baa3e5c66a7df",
-    "5ea80745694baa3e5c66a7e0",
-    "5ea80747694baa3e5c66a7e1",
-    "5ea80748694baa3e5c66a7e2",
-    "5ea80763694baa3e5c66a7e3",
-    "5ea80764694baa3e5c66a7e4",
-  ];
-
-  getQuestionQuery(id) {
-    return gql`
+  constructor() {
+    super();
+    this.questionsQuery = gql`
       query {
-        getQuestion(args: { _id: "${id}" }) {
+        getAllQuestions {
           _id
           title
           body
@@ -49,24 +45,23 @@ class HomeComponent extends Component {
   }
 
   renderQuestions() {
-    return this.questionIds.map((id) => {
-      return (
-        <Query query={this.getQuestionQuery(id)}>
-          {({ loading, err, data }) => {
-            if (data) {
-              data = data["getQuestion"];
-              return this.buildQuestionCard(data);
-            } else if (loading || !data) {
-              return <Typography></Typography>;
-            } else if (err) {
-              return <Typography variant="h6">Error</Typography>;
-            }
-          }}
-        </Query>
-      );
-    });
-    // {/* Setting loading to false */}
-    // this.setState({ loading: false });
+    return (
+      <Query query={this.questionsQuery}>
+        {({ loading, err, data }) => {
+          if (data) {
+            console.log(data);
+            data = data["getAllQuestions"];
+            return data.reverse().map((question) => {
+              return this.buildQuestionCard(question);
+            });
+          } else if (loading || !data) {
+            return <Typography></Typography>;
+          } else if (err) {
+            return <Typography variant="h6">Error</Typography>;
+          }
+        }}
+      </Query>
+    );
   }
 
   render() {
@@ -74,6 +69,25 @@ class HomeComponent extends Component {
       <div>
         {/* Progress indicator */}
         {this.state.loading && <LinearProgress color="secondary" />}
+        <Container
+          size="sm"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: "2rem",
+            marginBottom: "2rem",
+          }}
+        >
+          <Typography variant="h5">
+            <Box fontWeight={600}>QUESTIONS ON RISE</Box>
+          </Typography>
+          <Link to="/question" style={{ textDecoration: "none" }}>
+            <Button color="secondary" variant="contained">
+              I have question
+            </Button>
+          </Link>
+        </Container>
         {/* Questions */}
         {this.renderQuestions()}
       </div>
