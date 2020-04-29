@@ -1,4 +1,4 @@
-import React, { Component, useContext } from "react";
+import React, { Component } from "react";
 import {
   Card,
   CardContent,
@@ -6,32 +6,89 @@ import {
   Chip,
   IconButton,
   Button,
-  Tooltip,
   Typography,
 } from "@material-ui/core";
 import {
   StarBorder,
   Visibility,
   QuestionAnswerOutlined,
+  ThumbUpAlt,
   ThumbUpAltOutlined,
+  ThumbDownAlt,
   ThumbDownAltOutlined,
   ThumbsUpDownOutlined,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import * as tools from "../../tools";
+import { ApolloClient } from "apollo-boost";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { HttpLink } from "apollo-link-http";
+import { gql } from "apollo-boost";
 
 class QuestionCard extends Component {
   constructor(props) {
     super(props);
     this.state = this.props.quesData;
+    this.client = new ApolloClient({
+      link: new HttpLink({
+        uri: "http://localhost",
+      }),
+      cache: new InMemoryCache(),
+    });
   }
 
   incrementVotes() {
-    this.setState({ votes: this.state.votes + 1 });
+    this.client.mutate({
+      mutation: gql`
+        mutation {
+          voteQuestion(args: {
+            uid: "${tools.currentUser}",
+            questionId: "${this.state._id}",
+            score: 1
+          })
+        }
+      `,
+    });
+    let increment = 1;
+    if (this.state.votes.downvoters.includes(tools.currentUser)) increment = 2;
+    this.state.votes.upvoters.push(tools.currentUser);
+    this.state.votes.downvoters.splice(tools.currentUser, 1);
+    this.setState({
+      votes: {
+        net: this.state.votes.net + increment,
+        upvoters: this.state.votes.upvoters,
+        downvoters: this.state.votes.downvoters,
+      },
+    });
   }
 
   decrementVotes() {
-    this.setState({ votes: this.state.votes - 1 });
+    this.client.mutate({
+      mutation: gql`
+        mutation {
+          voteQuestion(args: {
+            uid: "${tools.currentUser}",
+            questionId: "${this.state._id}",
+            score: -1
+          })
+        }
+      `,
+    });
+    let decrement = -1;
+    if (this.state.votes.upvoters.includes(tools.currentUser)) decrement = -2;
+    this.state.votes.downvoters.push(tools.currentUser);
+    this.state.votes.upvoters.splice(tools.currentUser, 1);
+    this.setState({
+      votes: {
+        net: this.state.votes.net + decrement,
+        upvoters: this.state.votes.upvoters,
+        downvoters: this.state.votes.downvoters,
+      },
+    });
+  }
+
+  iconChoiceByVar(variable, icon1, icon2) {
+    return variable ? icon1 : icon2;
   }
 
   getViewsCount() {
@@ -67,7 +124,7 @@ class QuestionCard extends Component {
             style={{ marginRight: ".5rem", marginLeft: "1.5rem" }}
           />
         )}
-        <Typography>{this.state.votes} votes</Typography>
+        <Typography>{this.state.votes.net} votes</Typography>
       </div>
     );
   }
@@ -97,8 +154,13 @@ class QuestionCard extends Component {
               onClick={() => {
                 this.incrementVotes();
               }}
+              disabled={this.state.votes.upvoters.includes(tools.currentUser)}
             >
-              <ThumbUpAltOutlined />
+              {this.iconChoiceByVar(
+                this.state.votes.upvoters.includes(tools.currentUser),
+                <ThumbUpAlt />,
+                <ThumbUpAltOutlined />
+              )}
             </IconButton>
           )}
           {/* //& Total Votes */}
@@ -110,8 +172,13 @@ class QuestionCard extends Component {
               onClick={() => {
                 this.decrementVotes();
               }}
+              disabled={this.state.votes.downvoters.includes(tools.currentUser)}
             >
-              <ThumbDownAltOutlined />
+              {this.iconChoiceByVar(
+                this.state.votes.downvoters.includes(tools.currentUser),
+                <ThumbDownAlt />,
+                <ThumbDownAltOutlined />
+              )}
             </IconButton>
           )}
         </div>

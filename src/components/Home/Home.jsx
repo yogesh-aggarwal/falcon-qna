@@ -9,9 +9,14 @@ class HomeComponent extends Component {
   state = { loading: false };
   questions = [];
   questionIds = [
-    "5ea67c62ac5e620ff4057f2f",
-    "5ea67c71ac5e620ff4057f31",
-    "5ea67c73ac5e620ff4057f32",
+    "5ea8072f694baa3e5c66a7dd",
+    "5ea80740694baa3e5c66a7de",
+    "5ea80743694baa3e5c66a7df",
+    "5ea80745694baa3e5c66a7e0",
+    "5ea80747694baa3e5c66a7e1",
+    "5ea80748694baa3e5c66a7e2",
+    "5ea80763694baa3e5c66a7e3",
+    "5ea80764694baa3e5c66a7e4",
   ];
 
   getQuestionQuery(id) {
@@ -26,7 +31,9 @@ class HomeComponent extends Component {
             _id
           }
           views
-          votes
+          votes {
+            net
+          }
           postedOn
         }
       }

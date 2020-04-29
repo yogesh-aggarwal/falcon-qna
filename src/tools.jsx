@@ -8,6 +8,8 @@ export const styles = {
   inlineItems: { display: "flex", alignItems: "center" },
 };
 
+export const currentUser = "john"
+
 export function getTimeAgo(timestampDiff) {
   let seconds = timestampDiff / 1000;
   if (seconds <= 60) {

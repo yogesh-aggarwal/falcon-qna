@@ -24,10 +24,18 @@ class QuestionComponent extends Component {
           answers {
             _id
             body
-            votes
+            votes {
+              net
+              upvoters
+              downvoters
+            }
             postedOn
           }
-          votes
+          votes {
+            net
+            upvoters
+            downvoters
+          }
           postedOn
         }
       }
