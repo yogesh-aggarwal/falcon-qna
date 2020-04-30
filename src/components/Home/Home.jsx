@@ -49,9 +49,8 @@ class HomeComponent extends Component {
       <Query query={this.questionsQuery}>
         {({ loading, err, data }) => {
           if (data) {
-            console.log(data);
             data = data["getAllQuestions"];
-            return data.reverse().map((question) => {
+            return data.map((question) => {
               return this.buildQuestionCard(question);
             });
           } else if (loading || !data) {

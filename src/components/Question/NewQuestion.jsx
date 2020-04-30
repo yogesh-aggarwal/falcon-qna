@@ -8,14 +8,8 @@ import {
   Snackbar,
 } from "@material-ui/core";
 import { Alert, Autocomplete } from "@material-ui/lab";
-import { ApolloClient } from "apollo-boost";
-import { InMemoryCache } from "apollo-cache-inmemory";
 import * as tools from "../../tools";
-import { HttpLink } from "apollo-link-http";
 import { gql } from "apollo-boost";
-import { useHistory } from "react-router-dom";
-
-let serverAddress = tools.statics.serverAddress;
 
 class NewQuestionComponent extends Component {
   constructor(props) {
@@ -36,18 +30,12 @@ class NewQuestionComponent extends Component {
       showQuestionSubmitingSnackbar: false,
       showQuestionSubmitedSnackbar: false,
     };
-    this.client = new ApolloClient({
-      link: new HttpLink({
-        uri: serverAddress,
-      }),
-      cache: new InMemoryCache(),
-    });
   }
 
   submitQuestion() {
     this.setState({ showQuestionSubmitingSnackbar: true });
     this.setState({ tags: this.state.tags.map((tag) => `"${tag}"`) });
-    this.client
+    tools.client
       .mutate({
         mutation: gql`
           mutation {
@@ -56,7 +44,7 @@ class NewQuestionComponent extends Component {
                 title: "${this.state.title}"
                 body: "${this.state.body}"
                 tags: "${this.state.tags}"
-                owner: "${tools.currentUser}"
+                owner: "${tools.currentUser._id}"
               }
             )
           }
@@ -71,7 +59,6 @@ class NewQuestionComponent extends Component {
         }
       })
       .catch((err) => {
-        console.log(err);
         this.setState({ showQuestionSubmitingSnackbar: false });
         this.setState({ showQuestionErrorSnackbar: true });
       });

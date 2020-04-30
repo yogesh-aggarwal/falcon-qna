@@ -20,30 +20,20 @@ import {
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import * as tools from "../../tools";
-import { ApolloClient } from "apollo-boost";
-import { InMemoryCache } from "apollo-cache-inmemory";
-import { HttpLink } from "apollo-link-http";
 import { gql } from "apollo-boost";
 
-let serverAddress = tools.statics.serverAddress;
 class QuestionCard extends Component {
   constructor(props) {
     super(props);
     this.state = this.props.quesData;
-    this.client = new ApolloClient({
-      link: new HttpLink({
-        uri: serverAddress,
-      }),
-      cache: new InMemoryCache(),
-    });
   }
 
   incrementVotes() {
-    this.client.mutate({
+    tools.client.mutate({
       mutation: gql`
         mutation {
           voteQuestion(args: {
-            uid: "${tools.currentUser}",
+            uid: "${tools.currentUser._id}",
             questionId: "${this.state._id}",
             score: 1
           })
@@ -51,9 +41,10 @@ class QuestionCard extends Component {
       `,
     });
     let increment = 1;
-    if (this.state.votes.downvoters.includes(tools.currentUser)) increment = 2;
-    this.state.votes.upvoters.push(tools.currentUser);
-    this.state.votes.downvoters.splice(tools.currentUser, 1);
+    if (this.state.votes.downvoters.includes(tools.currentUser._id))
+      increment = 2;
+    this.state.votes.upvoters.push(tools.currentUser._id);
+    this.state.votes.downvoters.splice(tools.currentUser._id, 1);
     this.setState({
       votes: {
         net: this.state.votes.net + increment,
@@ -64,11 +55,11 @@ class QuestionCard extends Component {
   }
 
   decrementVotes() {
-    this.client.mutate({
+    tools.client.mutate({
       mutation: gql`
         mutation {
           voteQuestion(args: {
-            uid: "${tools.currentUser}",
+            uid: "${tools.currentUser._id}",
             questionId: "${this.state._id}",
             score: -1
           })
@@ -76,9 +67,10 @@ class QuestionCard extends Component {
       `,
     });
     let decrement = -1;
-    if (this.state.votes.upvoters.includes(tools.currentUser)) decrement = -2;
-    this.state.votes.downvoters.push(tools.currentUser);
-    this.state.votes.upvoters.splice(tools.currentUser, 1);
+    if (this.state.votes.upvoters.includes(tools.currentUser._id))
+      decrement = -2;
+    this.state.votes.downvoters.push(tools.currentUser._id);
+    this.state.votes.upvoters.splice(tools.currentUser._id, 1);
     this.setState({
       votes: {
         net: this.state.votes.net + decrement,
@@ -155,10 +147,12 @@ class QuestionCard extends Component {
               onClick={() => {
                 this.incrementVotes();
               }}
-              disabled={this.state.votes.upvoters.includes(tools.currentUser)}
+              disabled={this.state.votes.upvoters.includes(
+                tools.currentUser._id
+              )}
             >
               {this.iconChoiceByVar(
-                this.state.votes.upvoters.includes(tools.currentUser),
+                this.state.votes.upvoters.includes(tools.currentUser._id),
                 <ThumbUpAlt />,
                 <ThumbUpAltOutlined />
               )}
@@ -173,10 +167,12 @@ class QuestionCard extends Component {
               onClick={() => {
                 this.decrementVotes();
               }}
-              disabled={this.state.votes.downvoters.includes(tools.currentUser)}
+              disabled={this.state.votes.downvoters.includes(
+                tools.currentUser._id
+              )}
             >
               {this.iconChoiceByVar(
-                this.state.votes.downvoters.includes(tools.currentUser),
+                this.state.votes.downvoters.includes(tools.currentUser._id),
                 <ThumbDownAlt />,
                 <ThumbDownAltOutlined />
               )}
@@ -248,11 +244,16 @@ class QuestionCard extends Component {
 
   getFooterSecondaryActions() {
     return (
-      <div
-        className="secondary-actions"
-        style={{ display: "flex", alignItems: "center" }}
-      >
-        <Typography>
+      <div className="secondary-actions" style={tools.styles.inlineItems}>
+        <Button color="primary">Follow</Button>
+        {() => {
+          if (!this.state.routeButton) {
+            return <Button color="primary">Edit</Button>;
+          } else {
+            return <Button color="primary">Report</Button>;
+          }
+        }}
+        <Typography style={{ marginLeft: "1rem" }}>
           Posted {tools.getTimeAgo(Date.now() - this.state.postedOn)} ago
         </Typography>
         <IconButton color="primary">

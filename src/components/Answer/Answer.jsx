@@ -1,20 +1,9 @@
 import React, { Component } from "react";
 import { gql } from "apollo-boost";
 import { Query } from "react-apollo";
-import {
-//   Card,
-//   CardContent,
-//   CardActions,
-//   Button,
-//   IconButton,
-//   Chip,
-  Typography,
-  LinearProgress,
-} from "@material-ui/core";
+import { Typography, LinearProgress } from "@material-ui/core";
 
 class AnswerComponent extends Component {
-  ANSWER_QUERY;
-
   constructor(props) {
     super(props);
     this.state = {};
@@ -54,7 +43,6 @@ class AnswerComponent extends Component {
         {({ loading, err, data }) => {
           if (loading) return this.loadingComponent();
           if (err || data == undefined) return this.errorComponent();
-          console.log(data);
           return this.answer();
         }}
       </Query>

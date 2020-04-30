@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ApolloProvider } from "@apollo/react-hooks";
-import ApolloClient from "apollo-boost";
 
 /// Components
 import NavbarComponent from "./components/Navbar/Navbar";
@@ -13,15 +12,11 @@ import NewQuestionComponent from "./components/Question/NewQuestion";
 import * as tools from "./tools";
 
 class App extends Component {
-  client = new ApolloClient({
-    uri: tools.statics.serverAddress,
-  });
-
   render() {
     return (
       <Router>
         <div>
-          <ApolloProvider client={this.client}>
+          <ApolloProvider client={tools.client}>
             <NavbarComponent />
             <Switch>
               {/* For viewing questions */}

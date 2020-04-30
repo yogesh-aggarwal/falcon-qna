@@ -1,5 +1,8 @@
 import React from "react";
 import { Tooltip } from "@material-ui/core";
+import { ApolloClient } from "apollo-boost";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { HttpLink } from "apollo-link-http";
 
 export const statics = {
   tooltipEnterDelay: 500,
@@ -9,7 +12,14 @@ export const styles = {
   inlineItems: { display: "flex", alignItems: "center" },
 };
 
-export const currentUser = "john";
+export const client = new ApolloClient({
+  link: new HttpLink({
+    uri: statics.serverAddress,
+  }),
+  cache: new InMemoryCache(),
+});
+
+export const currentUser = { _id: "john" };
 
 export function getTimeAgo(timestampDiff) {
   let seconds = timestampDiff / 1000;
