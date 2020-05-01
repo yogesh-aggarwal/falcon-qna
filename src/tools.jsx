@@ -19,7 +19,8 @@ export const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export const currentUser = { _id: "john" };
+// export const currentUser = { _id: "john" };
+export const currentUser = { _id: "bob" };
 
 export function getTimeAgo(timestampDiff) {
   let seconds = timestampDiff / 1000;

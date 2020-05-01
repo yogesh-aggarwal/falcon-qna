@@ -13,7 +13,7 @@ import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
 
 class HomeComponent extends Component {
-  state = { loading: false };
+  state = {};
   constructor() {
     super();
     this.questionsQuery = gql`
@@ -54,7 +54,7 @@ class HomeComponent extends Component {
               return this.buildQuestionCard(question);
             });
           } else if (loading || !data) {
-            return <Typography>Loading...</Typography>;
+            return <LinearProgress color="secondary" />;
           } else if (err) {
             return <Typography variant="h6">Error</Typography>;
           }
@@ -66,8 +66,6 @@ class HomeComponent extends Component {
   render() {
     return (
       <div>
-        {/* Progress indicator */}
-        {this.state.loading && <LinearProgress color="secondary" />}
         <Container
           size="sm"
           style={{
