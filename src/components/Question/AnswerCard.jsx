@@ -9,10 +9,13 @@ import {
 } from "@material-ui/core";
 import {
   StarBorder,
+  ThumbUpAlt,
   ThumbUpAltOutlined,
+  ThumbDownAlt,
   ThumbDownAltOutlined,
 } from "@material-ui/icons";
 import * as tools from "../../tools";
+import { gql } from "apollo-boost";
 
 class AnswerCard extends Component {
   constructor(props) {
@@ -21,15 +24,63 @@ class AnswerCard extends Component {
   }
 
   incrementVotes() {
-    this.setState({ votes: this.state.votes + 1 });
+    tools.client.mutate({
+      mutation: gql`
+        mutation {
+          voteAnswer(args: {
+            uid: "${tools.currentUser._id}",
+            answerId: "${this.state._id}",
+            score: 1
+          })
+        }
+      `,
+    });
+    let increment = 1;
+    if (this.state.votes.downvoters.includes(tools.currentUser._id))
+      increment = 2;
+    this.state.votes.upvoters.push(tools.currentUser._id);
+    this.state.votes.downvoters.splice(tools.currentUser._id, 1);
+    this.setState({
+      votes: {
+        net: this.state.votes.net + increment,
+        upvoters: this.state.votes.upvoters,
+        downvoters: this.state.votes.downvoters,
+      },
+    });
   }
 
   decrementVotes() {
-    this.setState({ votes: this.state.votes - 1 });
+    tools.client.mutate({
+      mutation: gql`
+        mutation {
+          voteAnswer(args: {
+            uid: "${tools.currentUser._id}",
+            answerId: "${this.state._id}",
+            score: -1
+          })
+        }
+      `,
+    });
+    let decrement = -1;
+    if (this.state.votes.upvoters.includes(tools.currentUser._id))
+      decrement = -2;
+    this.state.votes.downvoters.push(tools.currentUser._id);
+    this.state.votes.upvoters.splice(tools.currentUser._id, 1);
+    this.setState({
+      votes: {
+        net: this.state.votes.net + decrement,
+        upvoters: this.state.votes.upvoters,
+        downvoters: this.state.votes.downvoters,
+      },
+    });
+  }
+
+  iconChoiceByVar(variable, icon1, icon2) {
+    return variable ? icon1 : icon2;
   }
 
   getVotesCount() {
-    return <Typography>{this.state.votes} votes</Typography>;
+    return <Typography>{this.state.votes.net} votes</Typography>;
   }
 
   getCardHeaderContent() {
@@ -40,27 +91,41 @@ class AnswerCard extends Component {
     //? Component is used from home
     return (
       <div style={{ display: "flex", alignItems: "center" }}>
-        {/* //& Voting buttons */}
-        <IconButton
-          onClick={() => {
-            this.incrementVotes();
-          }}
-        >
-          <ThumbUpAltOutlined />
-        </IconButton>
-        {this.getVotesCount(false)}
-        <IconButton
-          onClick={() => {
-            this.decrementVotes();
-          }}
-        >
-          <ThumbDownAltOutlined />
-        </IconButton>
-
-        {/* //& Action buttons */}
-        <Button color="primary">Edit</Button>
-        <Button color="primary">Follow</Button>
-        <Button color="primary">Report</Button>
+        {/* //& Upvote */}
+        {tools.AttachTooltip(
+          "Question should be promoted",
+          <IconButton
+            onClick={() => {
+              this.incrementVotes();
+            }}
+            disabled={this.state.votes.upvoters.includes(tools.currentUser._id)}
+          >
+            {this.iconChoiceByVar(
+              this.state.votes.upvoters.includes(tools.currentUser._id),
+              <ThumbUpAlt />,
+              <ThumbUpAltOutlined />
+            )}
+          </IconButton>
+        )}
+        {/* //& Total Votes */}
+        {tools.AttachTooltip("Total votes", this.getVotesCount(false))}
+        {tools.AttachTooltip(
+          "Question should not be promoted",
+          <IconButton
+            onClick={() => {
+              this.decrementVotes();
+            }}
+            disabled={this.state.votes.downvoters.includes(
+              tools.currentUser._id
+            )}
+          >
+            {this.iconChoiceByVar(
+              this.state.votes.downvoters.includes(tools.currentUser._id),
+              <ThumbDownAlt />,
+              <ThumbDownAltOutlined />
+            )}
+          </IconButton>
+        )}
       </div>
     );
   }
@@ -88,7 +153,13 @@ class AnswerCard extends Component {
         className="secondary-actions"
         style={{ display: "flex", alignItems: "center" }}
       >
-        <Typography>
+        {/* //& Action buttons */}
+        <Button color="primary">Edit</Button>
+        <Button color="primary">Follow</Button>
+        <Button color="primary">Report</Button>
+
+        {/* //& Answer information */}
+        <Typography style={{ marginLeft: "1rem" }}>
           Answered {tools.getTimeAgo(Date.now() - this.state.postedOn)} ago
         </Typography>
         <IconButton color="primary">

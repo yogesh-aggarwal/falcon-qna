@@ -62,8 +62,6 @@ class NewQuestionComponent extends Component {
         this.setState({ showQuestionSubmitingSnackbar: false });
         this.setState({ showQuestionErrorSnackbar: true });
       });
-
-    // useHistory().push("/question");
   }
 
   formErrorSnackbar() {

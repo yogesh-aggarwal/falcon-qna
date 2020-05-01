@@ -54,7 +54,7 @@ class HomeComponent extends Component {
               return this.buildQuestionCard(question);
             });
           } else if (loading || !data) {
-            return <Typography></Typography>;
+            return <Typography>Loading...</Typography>;
           } else if (err) {
             return <Typography variant="h6">Error</Typography>;
           }

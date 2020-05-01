@@ -199,6 +199,7 @@ class QuestionCard extends Component {
     return this.state.tags.map((tag) => {
       return (
         <Chip
+          key={tag}
           clickable
           size="small"
           variant="outlined"
@@ -246,13 +247,13 @@ class QuestionCard extends Component {
     return (
       <div className="secondary-actions" style={tools.styles.inlineItems}>
         <Button color="primary">Follow</Button>
-        {() => {
+        {/* {() => {
           if (!this.state.routeButton) {
             return <Button color="primary">Edit</Button>;
           } else {
             return <Button color="primary">Report</Button>;
           }
-        }}
+        }} */}
         <Typography style={{ marginLeft: "1rem" }}>
           Posted {tools.getTimeAgo(Date.now() - this.state.postedOn)} ago
         </Typography>
