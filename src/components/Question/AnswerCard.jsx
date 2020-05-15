@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import {
   Card,
   Button,
@@ -8,7 +8,6 @@ import {
   CardActions,
 } from "@material-ui/core";
 import {
-  StarBorder,
   ThumbUpAlt,
   ThumbUpAltOutlined,
   ThumbDownAlt,
@@ -17,201 +16,175 @@ import {
 import * as tools from "../../tools";
 import { gql } from "apollo-boost";
 
-class AnswerCard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = this.props.ansData;
-  }
+let styles = {
+  card: { marginTop: "1rem" },
+  cardActions: {
+    display: "flex",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
+  },
+  footer: {
+    buttons: { display: "flex", alignItems: "center" },
+    actions: { display: "flex", alignItems: "center" },
+    ansInfo: { marginLeft: "1rem", marginRight: "1rem" },
+  },
+};
 
-  incrementVotes() {
+class Vote {
+  static upvote(state, setState) {
+    console.log(state, "upvoter");
     tools.client.mutate({
       mutation: gql`
         mutation {
           voteAnswer(args: {
             uid: "${tools.currentUser._id}",
-            answerId: "${this.state._id}",
+            answerId: "${state._id}",
             score: 1
           })
         }
       `,
     });
     let increment = 1;
-    if (this.state.votes.downvoters.includes(tools.currentUser._id))
-      increment = 2;
-    this.state.votes.upvoters.push(tools.currentUser._id);
-    this.state.votes.downvoters.splice(tools.currentUser._id, 1);
-    this.setState({
+    if (state.votes.downvoters.includes(tools.currentUser._id)) increment = 2;
+    console.log(state.votes, "upvote");
+    state.votes.upvoters.push(tools.currentUser._id);
+    state.votes.downvoters.splice(
+      state.votes.downvoters.indexOf(tools.currentUser._id),
+      1
+    );
+    console.log(state.votes, "upvote");
+    setState({
       votes: {
-        net: this.state.votes.net + increment,
-        upvoters: this.state.votes.upvoters,
-        downvoters: this.state.votes.downvoters,
+        net: state.votes.net + increment,
+        upvoters: state.votes.upvoters,
+        downvoters: state.votes.downvoters,
       },
     });
   }
 
-  decrementVotes() {
+  static downvote(state, setState) {
+    // console.log(state, "downvoter");
     tools.client.mutate({
       mutation: gql`
         mutation {
           voteAnswer(args: {
             uid: "${tools.currentUser._id}",
-            answerId: "${this.state._id}",
+            answerId: "${state._id}",
             score: -1
           })
         }
       `,
     });
     let decrement = -1;
-    if (this.state.votes.upvoters.includes(tools.currentUser._id))
-      decrement = -2;
-    this.state.votes.downvoters.push(tools.currentUser._id);
-    this.state.votes.upvoters.splice(tools.currentUser._id, 1);
-    this.setState({
+    if (state.votes.upvoters.includes(tools.currentUser._id)) decrement = -2;
+    state.votes.downvoters.push(tools.currentUser._id);
+    state.votes.upvoters.splice(
+      state.votes.upvoters.indexOf(tools.currentUser._id),
+      1
+    );
+    // console.log(state.votes, "downvote");
+    setState({
       votes: {
-        net: this.state.votes.net + decrement,
-        upvoters: this.state.votes.upvoters,
-        downvoters: this.state.votes.downvoters,
+        net: state.votes.net + decrement,
+        upvoters: state.votes.upvoters,
+        downvoters: state.votes.downvoters,
       },
     });
   }
+}
 
-  iconChoiceByVar(variable, icon1, icon2) {
-    return variable ? icon1 : icon2;
+class Footer {
+  static FooterButton({ tooltip, clickHandle, Icon, IconOutlined, voters }) {
+    return tools.AttachTooltip(
+      tooltip,
+      <IconButton
+        onClick={clickHandle}
+        disabled={voters.includes(tools.currentUser._id)}
+      >
+        {voters.includes(tools.currentUser._id) ? <Icon /> : <IconOutlined />}
+      </IconButton>
+    );
   }
 
-  getVotesCount() {
-    return <Typography>{this.state.votes.net} votes</Typography>;
-  }
-
-  getCardHeaderContent() {
-    return <CardContent>{this.getCardBody()}</CardContent>;
-  }
-
-  getFooterButtons() {
+  static FooterButtons({ state, setState }) {
     //? Component is used from home
     return (
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div style={styles.footer.buttons}>
         {/* //& Upvote */}
-        {tools.AttachTooltip(
-          "Question should be promoted",
-          <IconButton
-            onClick={() => {
-              this.incrementVotes();
-            }}
-            disabled={this.state.votes.upvoters.includes(tools.currentUser._id)}
-          >
-            {this.iconChoiceByVar(
-              this.state.votes.upvoters.includes(tools.currentUser._id),
-              <ThumbUpAlt />,
-              <ThumbUpAltOutlined />
-            )}
-          </IconButton>
-        )}
+        <Footer.FooterButton
+          tooltip="Question should be promoted"
+          clickHandle={() => [Vote.upvote(state, setState)]}
+          Icon={ThumbUpAlt}
+          IconOutlined={ThumbUpAltOutlined}
+          voters={state.votes.upvoters}
+        />
         {/* //& Total Votes */}
-        {tools.AttachTooltip("Total votes", this.getVotesCount(false))}
         {tools.AttachTooltip(
-          "Question should not be promoted",
-          <IconButton
-            onClick={() => {
-              this.decrementVotes();
-            }}
-            disabled={this.state.votes.downvoters.includes(
-              tools.currentUser._id
-            )}
-          >
-            {this.iconChoiceByVar(
-              this.state.votes.downvoters.includes(tools.currentUser._id),
-              <ThumbDownAlt />,
-              <ThumbDownAltOutlined />
-            )}
-          </IconButton>
+          "Total votes",
+          <Typography>
+            {state.votes.upvoters.length - state.votes.downvoters.length} votes
+          </Typography>
         )}
+        {/* //& Upvote */}
+        <Footer.FooterButton
+          tooltip="Question shouldn't be promoted"
+          clickHandle={() => [Vote.downvote(state, setState)]}
+          Icon={ThumbDownAlt}
+          IconOutlined={ThumbDownAltOutlined}
+          voters={state.votes.downvoters}
+        />
       </div>
     );
   }
 
-  getFooterPrimaryActions() {
+  static FooterSecondaryActions({ postedOn }) {
     return (
-      <div
-        className="button"
-        style={{
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        {/*//& Button */}
-        {this.getFooterButtons()}
-        {/*//& Votes count */}
-        {this.state.routeButton && this.getVotesCount()}
-      </div>
-    );
-  }
-
-  getFooterSecondaryActions() {
-    return (
-      <div
-        className="secondary-actions"
-        style={{ display: "flex", alignItems: "center" }}
-      >
+      <div className="secondary-actions" style={styles.footer.actions}>
         {/* //& Action buttons */}
         <Button color="primary">Edit</Button>
         <Button color="primary">Follow</Button>
         <Button color="primary">Report</Button>
 
         {/* //& Answer information */}
-        <Typography style={{ marginLeft: "1rem" }}>
-          Answered {tools.getTimeAgo(Date.now() - this.state.postedOn)} ago
+        <Typography style={styles.footer.ansInfo}>
+          Answered {tools.getTimeAgo(Date.now() - postedOn)} ago
         </Typography>
-        <IconButton color="primary">
-          <StarBorder />
-        </IconButton>
       </div>
     );
   }
+}
 
-  getCardBody() {
-    if (this.state.routeButton) {
-      return (
-        <Typography variant="body2">
-          {this.state.body.slice(0, 300)}...
-        </Typography>
-      );
-    } else {
-      return <Typography variant="body1">{this.state.body}</Typography>;
-    }
+function CardBody({ state }) {
+  return (
+    <CardContent>
+      <Typography variant="body1">{state.body}</Typography>
+    </CardContent>
+  );
+}
+
+function AnswerCard(props) {
+  let _state = useState(props.ansData);
+  let state = _state[0];
+  let _setState = _state[1];
+  function setState(newState) {
+    _setState({ ...state, ...newState });
   }
+  console.log(state);
 
-  getCardFooterContent() {
-    return (
-      <CardActions
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-        }}
-      >
+  return (
+    <Card variant="outlined" key="b781b96f95825813d885c824" style={styles.card}>
+      {/* Header */}
+      <CardBody state={state} />
+
+      {/* Footer */}
+      <CardActions style={styles.cardActions}>
         {/* Primary actions */}
-        {this.getFooterPrimaryActions()}
+        <Footer.FooterButtons state={state} setState={setState} />
         {/* Secondary actions */}
-        {this.getFooterSecondaryActions()}
+        <Footer.FooterSecondaryActions postedOn={state.postedOn} />
       </CardActions>
-    );
-  }
-
-  render() {
-    return (
-      <Card
-        variant="outlined"
-        key="b781b96f95825813d885c824"
-        style={{ marginTop: "1rem" }}
-      >
-        {/* Header */}
-        {this.getCardHeaderContent()}
-        {/* Footer */}
-        {this.getCardFooterContent()}
-      </Card>
-    );
-  }
+    </Card>
+  );
 }
 
 export default AnswerCard;

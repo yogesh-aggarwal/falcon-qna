@@ -44,7 +44,10 @@ class QuestionCard extends Component {
     if (this.state.votes.downvoters.includes(tools.currentUser._id))
       increment = 2;
     this.state.votes.upvoters.push(tools.currentUser._id);
-    this.state.votes.downvoters.splice(tools.currentUser._id, 1);
+    this.state.votes.downvoters.splice(
+      this.state.votes.downvoters.indexOf(tools.currentUser._id),
+      1
+    );
     this.setState({
       votes: {
         net: this.state.votes.net + increment,
@@ -70,7 +73,10 @@ class QuestionCard extends Component {
     if (this.state.votes.upvoters.includes(tools.currentUser._id))
       decrement = -2;
     this.state.votes.downvoters.push(tools.currentUser._id);
-    this.state.votes.upvoters.splice(tools.currentUser._id, 1);
+    this.state.votes.upvoters.splice(
+      this.state.votes.upvoters.indexOf(tools.currentUser._id),
+      1
+    );
     this.setState({
       votes: {
         net: this.state.votes.net + decrement,

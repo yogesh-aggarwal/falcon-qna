@@ -1,53 +1,43 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { gql } from "apollo-boost";
-import { Query } from "react-apollo";
+import { useQuery } from "react-apollo";
 import { Typography, LinearProgress } from "@material-ui/core";
 
-class AnswerComponent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+function loadingComponent() {
+  return <LinearProgress color="secondary" />;
+}
 
-    this.ANSWER_QUERY = gql`
-        query {
-            getAnswer(args: { _id: "${this.props.id}" }) {
-            _id
-            body
-            owner {
-                name
-                isBanned
-            }
+function AnswerComponent(props) {
+  let ANSWER_QUERY = gql`
+    query {
+        getAnswer(args: { _id: "${props.id}" }) {
+        _id
+        body
+        owner {
+            name
+            isBanned
         }
-    }`;
-  }
+      }
+    }
+  `;
+  const [state, setState] = useState();
+  const { loading, error, data } = useQuery(ANSWER_QUERY);
 
-  loadingComponent() {
-    return <LinearProgress color="secondary" />;
-  }
+  if (loading) return loadingComponent();
+  if (error || data === undefined) return errorComponent();
+  return answer();
+}
 
-  errorComponent() {
-    return (
-      <Typography variant="h6">
-        Error occured while retrieving the answer
-      </Typography>
-    );
-  }
+function errorComponent() {
+  return (
+    <Typography variant="h6">
+      Error occured while retrieving the answer
+    </Typography>
+  );
+}
 
-  answer() {
-    return <Typography variant="h6">Answer Data is here!</Typography>;
-  }
-
-  render() {
-    return (
-      <Query query={this.ANSWER_QUERY}>
-        {({ loading, err, data }) => {
-          if (loading) return this.loadingComponent();
-          if (err || data == undefined) return this.errorComponent();
-          return this.answer();
-        }}
-      </Query>
-    );
-  }
+function answer() {
+  return <Typography variant="h6">Answer Data is here!</Typography>;
 }
 
 export default AnswerComponent;
