@@ -22,7 +22,11 @@ export const client = new ApolloClient({
 // export const currentUser = { _id: "john" };
 export const currentUser = { _id: "bob" };
 
-export function getTimeAgo(timestampDiff) {
+export function isObjEmpty(obj: any) {
+  return !Object.keys(obj).length;
+}
+
+export function getTimeAgo(timestampDiff: number) {
   let seconds = timestampDiff / 1000;
   if (seconds <= 60) {
     return `${Math.floor(seconds)} sec`;
@@ -39,7 +43,7 @@ export function getTimeAgo(timestampDiff) {
   }
 }
 
-export function AttachTooltip(title, component) {
+export function AttachTooltip(title: string, component: any) {
   return (
     <Tooltip title={title} enterDelay={statics.tooltipEnterDelay}>
       {component}
