@@ -1,0 +1,51 @@
+@import "../../scss/schemes";
+@import "../../scss/tools.scss";
+
+.container {
+  $backround: $primary;
+  background: $backround;
+  color: textColor($backround);
+  padding: 0.5rem 2rem;
+
+  display: grid;
+  grid-template-columns: 5rem auto;
+  align-items: center;
+
+  .logo {
+    display: grid;
+    grid-template-columns: 2rem auto;
+    grid-column-gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 100%;
+    }
+
+    .text {
+      font-weight: 600;
+    }
+  }
+
+  .user {
+    display: flex;
+    justify-content: flex-end;
+
+    .profile {
+      display: grid;
+      grid-template-columns: 2rem auto;
+      grid-column-gap: 0.5rem;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        width: 100%;
+        border-radius: 5rem;
+      }
+
+      .name {
+        font-weight: 500;
+      }
+    }
+  }
+}

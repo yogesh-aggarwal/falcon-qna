@@ -12,14 +12,6 @@ export class Home extends React.Component {
   }
 
   render() {
-    return (
-      <div
-        onClick={() => {
-          State.setState({ name: "Yogesh" });
-        }}
-      >
-        Home! {this.state.name}
-      </div>
-    );
+    return <div>Home! {this.state.name}</div>;
   }
 }
