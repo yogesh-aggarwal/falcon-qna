@@ -5,5 +5,6 @@ export interface QuestionInterface {
 }
 
 export interface StateInterface {
-  questions: Array<QuestionInterface>;
+  questions?: Array<QuestionInterface>;
+  name?: string;
 }
