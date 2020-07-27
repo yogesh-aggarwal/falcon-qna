@@ -1,5 +1,5 @@
 import { BehaviorSubject } from "rxjs";
-import { StateInterface } from "./interfaces";
+import { StateInterface } from "./interfaces/data";
 
 export class State {
   static state: BehaviorSubject<StateInterface> = new BehaviorSubject<

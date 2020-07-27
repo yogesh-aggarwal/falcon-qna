@@ -2,7 +2,7 @@ import React from "react";
 import { Home } from "./components/Home/Home";
 import { Navbar } from "./components/Navbar/Navbar";
 import { State } from "./data/state";
-import { StateInterface } from "./data/interfaces";
+import { StateInterface } from "./data/interfaces/data";
 
 class App extends React.Component {
   state: StateInterface = {};

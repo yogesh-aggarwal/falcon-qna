@@ -1,6 +1,6 @@
 import React from "react";
 import { State } from "../../data/state";
-import { StateInterface } from "../../data/interfaces";
+import { StateInterface } from "../../data/interfaces/data";
 
 export class Home extends React.Component {
   state: any = {};
