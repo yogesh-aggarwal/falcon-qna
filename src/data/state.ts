@@ -10,10 +10,16 @@ export class State {
       abcd: {
         title: "Hello World! 1",
         content: "Hey this is my first question",
+        votes: {
+          total: 200,
+        },
       },
       efgh: {
         title: "Hello World! 2",
         content: "Hey this is my second question",
+        votes: {
+          total: 200,
+        },
       },
     },
   });

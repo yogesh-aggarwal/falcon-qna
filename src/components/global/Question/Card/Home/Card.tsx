@@ -5,6 +5,7 @@ import {
 } from "../../../../../data/interfaces/data";
 import { State } from "../../../../../data/state";
 import { Button } from "@material-ui/core";
+import { ThumbsUpDownOutlined } from "@material-ui/icons";
 
 /// Styles
 import "../Card.scss";
@@ -40,6 +41,10 @@ export class QuestionCard extends React.Component<PropsInterface> {
           <Button color="primary" variant="contained">
             Let me try
           </Button>
+          <div className="votes">
+            <ThumbsUpDownOutlined />
+            <div className="count">{this.state.votes?.total}</div>
+          </div>
         </div>
       </div>
     );

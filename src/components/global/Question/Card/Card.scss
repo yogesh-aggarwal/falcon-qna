@@ -16,10 +16,23 @@
 
   .actions {
     margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     button {
       text-transform: unset;
       background: $primary;
+      margin-right: 2rem;
+    }
+
+    .votes {
+      display: flex;
+
+      .count {
+        margin-left: 0.5rem;
+        font-weight: 600;
+      }
     }
   }
 }
