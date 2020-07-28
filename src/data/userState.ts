@@ -1,5 +1,6 @@
 import { BehaviorSubject } from "rxjs";
 import { UserInterface } from "./interfaces/user";
+import { deepMerge } from "../services/tools";
 
 export class UserState {
   static state: BehaviorSubject<UserInterface> = new BehaviorSubject<
@@ -13,6 +14,6 @@ export class UserState {
   });
 
   static setState(newState: any) {
-    UserState.state.next({ ...UserState.state.value, ...newState });
+    UserState.state.next(deepMerge(UserState.state.value, newState));
   }
 }

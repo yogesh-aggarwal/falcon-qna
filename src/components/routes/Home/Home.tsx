@@ -1,12 +1,14 @@
 import React from "react";
 import { StateInterface } from "../../../data/interfaces/data";
 import { UserState } from "../../../data/userState";
+import { QuestionCard } from "../../global/Question/Card/Card";
+import { State } from "../../../data/state";
 
 export class Home extends React.Component {
-  state: any = {};
+  state: StateInterface = {};
 
   componentDidMount() {
-    UserState.state.subscribe((state: StateInterface) => {
+    State.state.subscribe((state: StateInterface) => {
       this.setState(state);
     });
   }
@@ -19,6 +21,15 @@ export class Home extends React.Component {
         }}
       >
         Home! {this.state.name}
+        {(() => {
+          if (this.state.questions) {
+            return Object.keys(this.state.questions).map((key: string) => {
+              return <QuestionCard id={key} key={key} />;
+            });
+          } else {
+            return <div></div>;
+          }
+        })()}
       </div>
     );
   }
