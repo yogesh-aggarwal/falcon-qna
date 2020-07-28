@@ -15,7 +15,7 @@ interface PropsInterface {
   id: string;
 }
 
-export class HomeQuestionCard extends React.Component<PropsInterface> {
+export class QuestionCard extends React.Component<PropsInterface> {
   id: string;
   state: QuestionInterface = {};
 
@@ -36,7 +36,7 @@ export class HomeQuestionCard extends React.Component<PropsInterface> {
     return (
       <div className="QuestionCardContainer">
         <div className="title">{this.state.title}</div>
-        <div className="contentHomePage">{this.state.content}</div>
+        <div className="contentQuestionPage">{this.state.content}</div>
 
         <div className="actions">
           <Link to={`/question/${this.id}`}>

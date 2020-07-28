@@ -1,6 +1,6 @@
 import React from "react";
 import { StateInterface } from "../../../data/interfaces/data";
-import { QuestionCard } from "../../global/QuestionCard/Home/Card";
+import { HomeQuestionCard } from "../../global/QuestionCard/Home/Card";
 import { State } from "../../../data/state";
 
 /// Styles
@@ -23,7 +23,7 @@ export class Home extends React.Component {
           {(() => {
             if (this.state.questions) {
               return Object.keys(this.state.questions).map((key: string) => {
-                return <QuestionCard id={key} key={key} />;
+                return <HomeQuestionCard id={key} key={key} />;
               });
             } else {
               return <div></div>;

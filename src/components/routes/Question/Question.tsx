@@ -5,6 +5,7 @@ import {
 } from "../../../data/interfaces/data";
 import { State } from "../../../data/state";
 import { RouteComponentProps } from "react-router-dom";
+import { QuestionCard } from "../../global/QuestionCard/QuestionPage/Card";
 
 interface Props {
   id: string;
@@ -28,6 +29,14 @@ export class Question extends React.Component<Props> {
   }
 
   render() {
-    return <div>{this.id}</div>;
+    return (
+      <div
+        onClick={() => {
+          State.setState({ questions: { abcd: { title: "Changed!" } } });
+        }}
+      >
+        <QuestionCard id={this.id} />
+      </div>
+    );
   }
 }
