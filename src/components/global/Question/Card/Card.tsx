@@ -4,7 +4,6 @@ import {
   QuestionInterface,
 } from "../../../../data/interfaces/data";
 import { State } from "../../../../data/state";
-import { UserState } from "../../../../data/userState";
 
 interface PropsInterface {
   id: string;
@@ -29,17 +28,6 @@ export class QuestionCard extends React.Component<PropsInterface> {
   }
 
   render() {
-    return (
-      <div className="QuestionCardContainer">
-        <div
-          onClick={() => {
-            State.setState({ questions: { abcd: { title: "Yogesh" } } });
-            console.log(State.state.value);
-          }}
-        >
-          {this.state.title}
-        </div>
-      </div>
-    );
+    return <div className="QuestionCardContainer"></div>;
   }
 }
