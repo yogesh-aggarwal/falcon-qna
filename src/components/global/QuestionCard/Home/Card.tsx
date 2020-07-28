@@ -2,8 +2,8 @@ import React from "react";
 import {
   StateInterface,
   QuestionInterface,
-} from "../../../../../data/interfaces/data";
-import { State } from "../../../../../data/state";
+} from "../../../../data/interfaces/data";
+import { State } from "../../../../data/state";
 import { Button } from "@material-ui/core";
 import { ThumbsUpDownOutlined } from "@material-ui/icons";
 
