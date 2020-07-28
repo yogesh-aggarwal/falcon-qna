@@ -8,6 +8,7 @@ import "./Navbar.scss";
 
 /// Assets
 import logo from "../../../assets/logo.png";
+import { Link } from "react-router-dom";
 
 export class Navbar extends React.Component {
   state: UserInterface = {};
@@ -21,10 +22,12 @@ export class Navbar extends React.Component {
   render() {
     return (
       <div className="container">
-        <div className="logo">
-          <img src={logo} alt="" />
-          <div className="text">Falcon</div>
-        </div>
+        <Link to="/">
+          <div className="logo">
+            <img src={logo} alt="" />
+            <div className="text">Falcon</div>
+          </div>
+        </Link>
         <div className="user">
           <div className="profile">
             <img src={this.state.profileImg} alt="" />

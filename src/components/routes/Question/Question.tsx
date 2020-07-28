@@ -16,7 +16,6 @@ export class Question extends React.Component<Props> {
 
   constructor(props: RouteComponentProps) {
     super(props as any);
-    console.log(props);
     this.id = (props.match.params as any)["id"];
   }
 
