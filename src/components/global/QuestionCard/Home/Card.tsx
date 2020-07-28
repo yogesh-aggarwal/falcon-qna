@@ -9,6 +9,7 @@ import { ThumbsUpDownOutlined } from "@material-ui/icons";
 
 /// Styles
 import "../Card.scss";
+import { Link } from "react-router-dom";
 
 interface PropsInterface {
   id: string;
@@ -38,9 +39,11 @@ export class QuestionCard extends React.Component<PropsInterface> {
         <div className="content">{this.state.content}</div>
 
         <div className="actions">
-          <Button color="primary" variant="contained">
-            Let me try
-          </Button>
+          <Link to={`/question/${this.id}`}>
+            <Button color="primary" variant="contained">
+              Let me try
+            </Button>
+          </Link>
           <div className="votes">
             <ThumbsUpDownOutlined />
             <div className="count">{this.state.votes?.total}</div>

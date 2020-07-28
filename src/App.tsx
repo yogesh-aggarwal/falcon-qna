@@ -7,6 +7,7 @@ import { StateInterface } from "./data/interfaces/data";
 
 /// Styles
 import "./scss/global.scss";
+import { Question } from "./components/routes/Question/Question";
 
 class App extends React.Component {
   state: StateInterface = {};
@@ -23,6 +24,7 @@ class App extends React.Component {
         <Navbar />
         <Switch>
           <Route path="/" exact component={Home} />
+          <Route path="/question/:id" exact component={Question} />
         </Switch>
       </Router>
     );
