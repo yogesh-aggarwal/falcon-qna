@@ -11,7 +11,14 @@
   }
 
   .content {
-    margin-top: 0.5rem;
+    margin-top: 0.2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    line-height: 1.5rem; /* fallback */
+    max-height: 3rem;
   }
 
   .actions {

@@ -9,7 +9,8 @@ export class State {
     questions: {
       abcd: {
         title: "Hello World! 1",
-        content: "Hey this is my first question",
+        content:
+          "Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question ",
         votes: {
           total: 200,
         },
