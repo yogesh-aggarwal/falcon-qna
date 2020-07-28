@@ -5,6 +5,9 @@ import { Navbar } from "./components/routes/Navbar/Navbar";
 import { State } from "./data/state";
 import { StateInterface } from "./data/interfaces/data";
 
+/// Styles
+import "./scss/global.scss";
+
 class App extends React.Component {
   state: StateInterface = {};
 
