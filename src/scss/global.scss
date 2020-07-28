@@ -24,3 +24,19 @@ img {
   user-select: none;
   -webkit-user-drag: none;
 }
+
+.CardsContainer {
+  $sidebarWidth: 20vw;
+  margin-top: 2rem;
+
+  display: grid;
+  grid-template-columns: minmax(15rem, $sidebarWidth) auto minmax(
+      15rem,
+      $sidebarWidth
+    );
+  grid-column-gap: 2rem;
+
+  .Cards {
+    max-width: calc(100vw - #{$sidebarWidth * 2});
+  }
+}

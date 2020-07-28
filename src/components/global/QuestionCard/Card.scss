@@ -8,6 +8,7 @@
 
   .title {
     font-weight: 600;
+    font-size: 1.1rem;
   }
 
   $contentMarginTop: 0.2rem;
@@ -29,10 +30,9 @@
     margin-top: $contentMarginTop;
   }
 
-  .actions {
+  ._actions {
     margin-top: 1.5rem;
     display: flex;
-    justify-content: space-between;
     align-items: center;
 
     button {
@@ -49,5 +49,15 @@
         font-weight: 600;
       }
     }
+  }
+
+  .actionsHomePage {
+    @extend ._actions;
+    justify-content: space-between;
+  }
+
+  .actionsQuestionPage {
+    @extend ._actions;
+    // justify-content: space-between;
   }
 }

@@ -38,7 +38,7 @@ export class HomeQuestionCard extends React.Component<PropsInterface> {
         <div className="title">{this.state.title}</div>
         <div className="contentHomePage">{this.state.content}</div>
 
-        <div className="actions">
+        <div className="actionsHomePage">
           <Link to={`/question/${this.id}`}>
             <Button color="primary" variant="contained">
               Let me try

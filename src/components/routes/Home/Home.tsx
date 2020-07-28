@@ -17,7 +17,7 @@ export class Home extends React.Component {
 
   render() {
     return (
-      <div className="HomeComponentContainer">
+      <div className="HomeComponentContainer CardsContainer">
         <div className="LeftSidebar">Left Sidebar!</div>
         <div className="Cards">
           {(() => {

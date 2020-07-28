@@ -30,12 +30,12 @@ export class Question extends React.Component<Props> {
 
   render() {
     return (
-      <div
-        onClick={() => {
-          State.setState({ questions: { abcd: { title: "Changed!" } } });
-        }}
-      >
-        <QuestionCard id={this.id} />
+      <div className="HomeComponentContainer CardsContainer">
+        <div className="LeftSidebar">Left Sidebar!</div>
+        <div className="Cards">
+          <QuestionCard id={this.id} />
+        </div>
+        <div className="RightSidebar">Right Sidebar!</div>
       </div>
     );
   }
