@@ -77,7 +77,6 @@ export class QuestionCard extends React.Component<
   }
 
   render() {
-    console.log(this.state);
     return (
       <div className="QuestionCardContainer">
         <div className="title">{this.state.question?.title}</div>
