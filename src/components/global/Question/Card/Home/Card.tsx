@@ -2,11 +2,12 @@ import React from "react";
 import {
   StateInterface,
   QuestionInterface,
-} from "../../../../data/interfaces/data";
-import { State } from "../../../../data/state";
+} from "../../../../../data/interfaces/data";
+import { State } from "../../../../../data/state";
+import { Button } from "@material-ui/core";
 
 /// Styles
-import "./Card.scss";
+import "../Card.scss";
 
 interface PropsInterface {
   id: string;
@@ -36,7 +37,9 @@ export class QuestionCard extends React.Component<PropsInterface> {
         <div className="content">{this.state.content}</div>
 
         <div className="actions">
-          <button>Let me try</button>
+          <Button color="primary" variant="contained">
+            Let me try
+          </Button>
         </div>
       </div>
     );

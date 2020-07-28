@@ -1,6 +1,6 @@
 import React from "react";
 import { StateInterface } from "../../../data/interfaces/data";
-import { QuestionCard } from "../../global/Question/Card/Card";
+import { QuestionCard } from "../../global/Question/Card/Home/Card";
 import { State } from "../../../data/state";
 
 /// Styles

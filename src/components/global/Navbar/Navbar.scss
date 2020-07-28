@@ -5,10 +5,10 @@
   $backround: $primary;
   background: $backround;
   color: textColor($backround);
-  padding: 0.5rem 2rem;
+  padding: 0.8rem 2rem;
 
   display: grid;
-  grid-template-columns: 5rem auto;
+  grid-template-columns: 6rem auto;
   align-items: center;
 
   .logo {

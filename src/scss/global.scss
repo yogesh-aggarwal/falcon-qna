@@ -14,18 +14,3 @@ body {
   box-sizing: border-box;
   font-family: "Poppins", "Segoe UI", "Tahoma", "Geneva", "Verdana", sans-serif;
 }
-
-button {
-  outline: none;
-  border: none;
-  background: $backround;
-  color: textColor($backround);
-  padding: 0.3rem 1rem;
-  border-radius: 0.3rem;
-  cursor: pointer;
-  transition: all 0.3s ease-out;
-
-  &:hover {
-    background: $primaryHover;
-  }
-}
