@@ -1,7 +1,7 @@
 import React from "react";
 import {
   QuestionInterface,
-  StateInterface,
+  GlobalStateInterface,
 } from "../../../data/interfaces/data";
 import { State } from "../../../data/state";
 import { RouteComponentProps } from "react-router-dom";
@@ -21,7 +21,7 @@ export class Question extends React.Component<Props> {
   }
 
   componentDidMount() {
-    State.state.subscribe((state: StateInterface) => {
+    State.state.subscribe((state: GlobalStateInterface) => {
       if (state.questions) {
         this.setState(state.questions[this.id]);
       }

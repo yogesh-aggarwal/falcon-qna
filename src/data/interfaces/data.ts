@@ -24,7 +24,7 @@ export interface QuestionInterface {
   votes?: VotesInterface;
 }
 
-export interface StateInterface {
+export interface GlobalStateInterface {
   questions?: {
     [key: string]: QuestionInterface;
   };

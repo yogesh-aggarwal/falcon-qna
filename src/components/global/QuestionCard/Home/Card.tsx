@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  StateInterface,
+  GlobalStateInterface,
   QuestionInterface,
 } from "../../../../data/interfaces/data";
 import { State } from "../../../../data/state";
@@ -25,7 +25,7 @@ export class HomeQuestionCard extends React.Component<PropsInterface> {
   }
 
   componentDidMount() {
-    State.state.subscribe((state: StateInterface) => {
+    State.state.subscribe((state: GlobalStateInterface) => {
       if (state.questions) {
         this.setState(state.questions[this.id]);
       }

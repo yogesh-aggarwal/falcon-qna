@@ -37,12 +37,11 @@
 
     button {
       text-transform: unset;
-      background: $primary;
-      margin-right: 2rem;
     }
 
     .votes {
       display: flex;
+      align-items: center;
 
       .count {
         margin-left: 0.5rem;

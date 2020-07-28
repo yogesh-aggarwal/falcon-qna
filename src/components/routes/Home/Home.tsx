@@ -1,5 +1,5 @@
 import React from "react";
-import { StateInterface } from "../../../data/interfaces/data";
+import { GlobalStateInterface } from "../../../data/interfaces/data";
 import { HomeQuestionCard } from "../../global/QuestionCard/Home/Card";
 import { State } from "../../../data/state";
 
@@ -7,10 +7,10 @@ import { State } from "../../../data/state";
 import "./Home.scss";
 
 export class Home extends React.Component {
-  state: StateInterface = {};
+  state: GlobalStateInterface = {};
 
   componentDidMount() {
-    State.state.subscribe((state: StateInterface) => {
+    State.state.subscribe((state: GlobalStateInterface) => {
       this.setState(state);
     });
   }

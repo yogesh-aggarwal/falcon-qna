@@ -3,17 +3,17 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Home } from "./components/routes/Home/Home";
 import { Navbar } from "./components/global/Navbar/Navbar";
 import { State } from "./data/state";
-import { StateInterface } from "./data/interfaces/data";
+import { GlobalStateInterface } from "./data/interfaces/data";
 
 /// Styles
 import "./scss/global.scss";
 import { Question } from "./components/routes/Question/Question";
 
 class App extends React.Component {
-  state: StateInterface = {};
+  state: GlobalStateInterface = {};
 
   componentDidMount() {
-    State.state.subscribe((state: StateInterface) => {
+    State.state.subscribe((state: GlobalStateInterface) => {
       this.setState(state);
     });
   }

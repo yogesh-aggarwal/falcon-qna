@@ -1,5 +1,5 @@
 import React from "react";
-import { StateInterface } from "../../../data/interfaces/data";
+import { GlobalStateInterface } from "../../../data/interfaces/data";
 import { UserState } from "../../../data/userState";
 import { UserInterface } from "../../../data/interfaces/user";
 
@@ -14,7 +14,7 @@ export class Navbar extends React.Component {
   state: UserInterface = {};
 
   componentDidMount() {
-    UserState.state.subscribe((state: StateInterface) => {
+    UserState.state.subscribe((state: GlobalStateInterface) => {
       this.setState(state);
     });
   }

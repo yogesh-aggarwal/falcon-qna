@@ -1,10 +1,10 @@
 import { BehaviorSubject } from "rxjs";
-import { StateInterface } from "./interfaces/data";
+import { GlobalStateInterface } from "./interfaces/data";
 import { deepMerge } from "../services/tools";
 
 export class State {
-  static state: BehaviorSubject<StateInterface> = new BehaviorSubject<
-    StateInterface
+  static state: BehaviorSubject<GlobalStateInterface> = new BehaviorSubject<
+    GlobalStateInterface
   >({
     questions: {
       abcd: {
@@ -13,6 +13,8 @@ export class State {
           "Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question ",
         votes: {
           total: 200,
+          upVoters: ["qwertyuiopasdfghjl"],
+          downVoters: [],
         },
       },
       efgh: {
@@ -20,12 +22,14 @@ export class State {
         content: "Hey this is my second question",
         votes: {
           total: 200,
+          upVoters: [],
+          downVoters: ["qwertyuiopasdfghjl"],
         },
       },
     },
   });
 
-  static setState(newState: StateInterface) {
+  static setState(newState: GlobalStateInterface) {
     console.log(State.state.value);
     console.log(newState);
     State.state.next(deepMerge(State.state.value, newState));
