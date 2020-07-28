@@ -1,6 +1,7 @@
 import React from "react";
-import { Home } from "./components/Home/Home";
-import { Navbar } from "./components/Navbar/Navbar";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Home } from "./components/routes/Home/Home";
+import { Navbar } from "./components/routes/Navbar/Navbar";
 import { State } from "./data/state";
 import { StateInterface } from "./data/interfaces/data";
 
@@ -15,10 +16,12 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <Router>
         <Navbar />
-        <Home />
-      </div>
+        <Switch>
+          <Route path="" component={Home} />
+        </Switch>
+      </Router>
     );
   }
 }

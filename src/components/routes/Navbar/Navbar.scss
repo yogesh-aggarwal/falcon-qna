@@ -1,5 +1,5 @@
-@import "../../scss/schemes";
-@import "../../scss/tools.scss";
+@import "../../../scss/schemes";
+@import "../../../scss/tools.scss";
 
 .container {
   $backround: $primary;
@@ -20,6 +20,8 @@
 
     img {
       width: 100%;
+      background: #fff;
+      border-radius: 5rem;
     }
 
     .text {

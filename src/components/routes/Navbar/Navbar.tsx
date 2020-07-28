@@ -1,11 +1,13 @@
 import React from "react";
+import { StateInterface } from "../../../data/interfaces/data";
+import { UserState } from "../../../data/userState";
+import { UserInterface } from "../../../data/interfaces/user";
+
+/// Styles
 import "./Navbar.scss";
-import { StateInterface } from "../../data/interfaces/data";
-import { UserState } from "../../data/userState";
-import { UserInterface } from "../../data/interfaces/user";
 
 /// Assets
-import logo from "../../assets/logo.jpg";
+import logo from "../../../assets/logo.png";
 
 export class Navbar extends React.Component {
   state: UserInterface = {};
