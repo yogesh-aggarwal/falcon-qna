@@ -14,3 +14,8 @@ body {
   box-sizing: border-box;
   font-family: "Poppins", "Segoe UI", "Tahoma", "Geneva", "Verdana", sans-serif;
 }
+
+img {
+  user-select: none;
+  -webkit-user-drag: none;
+}
