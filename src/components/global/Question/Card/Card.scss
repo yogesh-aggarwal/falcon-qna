@@ -1,0 +1,14 @@
+.QuestionCardContainer {
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 5px #ccc;
+  margin-bottom: 2rem;
+  padding: 1rem 2rem;
+
+  .content {
+    margin-top: 0.5rem;
+  }
+
+  .actions {
+    margin-top: 1.5rem;
+  }
+}

@@ -7,8 +7,14 @@ export class State {
     StateInterface
   >({
     questions: {
-      abcd: { title: "Hello World! 1" },
-      efgh: { title: "Hello World! 2" },
+      abcd: {
+        title: "Hello World! 1",
+        content: "Hey this is my first question",
+      },
+      efgh: {
+        title: "Hello World! 2",
+        content: "Hey this is my second question",
+      },
     },
   });
 

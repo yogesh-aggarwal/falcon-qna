@@ -1,0 +1,7 @@
+.HomeComponentContainer {
+  margin-top: 1rem;
+
+  display: grid;
+  grid-template-columns: minmax(15rem, 20vw) auto minmax(15rem, 20vw);
+  grid-column-gap: 2rem;
+}
