@@ -41,7 +41,7 @@ export class LeftSidebar extends React.Component {
             )}
           </IconButton>
         </Link>
-        <Link to="/">
+        <Link to="/trending">
           <IconButton>
             {this.state.currentRoute === "trending" && (
               <TrendingUp className="icon" />
