@@ -24,6 +24,7 @@ interface PropsInterface {
 interface StateInterface {
   question?: QuestionInterface;
   userId?: string;
+  isUserSuspended?: boolean;
 }
 
 export class QuestionCard extends React.Component<
@@ -51,12 +52,13 @@ export class QuestionCard extends React.Component<
       if (user.id) {
         this.setState({
           userId: user.id,
+          isUserSuspended: user.isSuspended,
         });
       }
     });
   }
 
-  checkVote(votes: Array<string> | undefined) {
+  private checkVote(votes: Array<string> | undefined) {
     if (this.state.userId) {
       if (votes?.includes(this.state.userId)) {
         return true;
@@ -76,6 +78,55 @@ export class QuestionCard extends React.Component<
     return this.checkVote(this.state.question?.votes?.downVoters);
   }
 
+  private updateVotes(upVoters: Array<string>, downVoters: Array<string>) {
+    let questionUpdate: any = {};
+    questionUpdate[this.id] = {
+      votes: {
+        upVoters: upVoters,
+        downVoters: downVoters,
+        total: upVoters.length - downVoters.length,
+      },
+    };
+
+    State.setState({ questions: questionUpdate });
+  }
+
+  toggleUpVote() {
+    let { upVoters, downVoters } = this.state.question?.votes as any;
+
+    const upVoterUserIndex: number = upVoters.indexOf(this.state.userId);
+    const downVoterUserIndex: number = downVoters.indexOf(this.state.userId);
+
+    if (downVoterUserIndex >= 0) {
+      downVoters.splice(downVoterUserIndex, 1);
+    }
+    if (upVoterUserIndex >= 0) {
+      upVoters.splice(upVoterUserIndex, 1);
+    } else {
+      upVoters.push(this.state.userId);
+    }
+
+    this.updateVotes(upVoters, downVoters);
+  }
+
+  toggleDownVote() {
+    let { upVoters, downVoters } = this.state.question?.votes as any;
+
+    const upVoterUserIndex: number = upVoters.indexOf(this.state.userId);
+    const downVoterUserIndex: number = downVoters.indexOf(this.state.userId);
+
+    if (upVoterUserIndex >= 0) {
+      upVoters.splice(upVoterUserIndex, 1);
+    }
+    if (downVoterUserIndex >= 0) {
+      downVoters.splice(downVoterUserIndex, 1);
+    } else {
+      downVoters.push(this.state.userId);
+    }
+
+    this.updateVotes(upVoters, downVoters);
+  }
+
   render() {
     return (
       <div className="QuestionCardContainer">
@@ -87,27 +138,33 @@ export class QuestionCard extends React.Component<
         <div className="actionsQuestionPage">
           <div className="votes">
             <div className="item">
-              {this.getIsUserUpVoter() ? (
-                <IconButton>
+              <IconButton
+                disabled={this.state.isUserSuspended}
+                onClick={() => {
+                  this.toggleUpVote();
+                }}
+              >
+                {this.getIsUserUpVoter() ? (
                   <ThumbUpAlt />
-                </IconButton>
-              ) : (
-                <IconButton>
+                ) : (
                   <ThumbUpAltOutlined />
-                </IconButton>
-              )}
+                )}
+              </IconButton>
             </div>
-            <div className="item">{this.state.question?.votes?.total}</div>
+            <div className="count">{this.state.question?.votes?.total}</div>
             <div className="item">
-              {this.getIsUserDownVoter() ? (
-                <IconButton>
+              <IconButton
+                disabled={this.state.isUserSuspended}
+                onClick={() => {
+                  this.toggleDownVote();
+                }}
+              >
+                {this.getIsUserDownVoter() ? (
                   <ThumbDownAlt />
-                </IconButton>
-              ) : (
-                <IconButton>
+                ) : (
                   <ThumbDownAltOutlined />
-                </IconButton>
-              )}
+                )}
+              </IconButton>
             </div>
           </div>
         </div>

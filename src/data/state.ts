@@ -12,7 +12,7 @@ export class State {
         content:
           "Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question Hey this is my first question ",
         votes: {
-          total: 200,
+          total: 1,
           upVoters: ["qwertyuiopasdfghjl"],
           downVoters: [],
         },
@@ -21,7 +21,7 @@ export class State {
         title: "Hello World! 2",
         content: "Hey this is my second question",
         votes: {
-          total: 200,
+          total: -1,
           upVoters: [],
           downVoters: ["qwertyuiopasdfghjl"],
         },

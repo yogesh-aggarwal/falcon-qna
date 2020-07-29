@@ -4,4 +4,5 @@ export interface UserInterface {
   profileImg?: string;
   email?: string;
   ladoo?: number;
+  isSuspended?: boolean;
 }

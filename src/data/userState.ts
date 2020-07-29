@@ -11,6 +11,7 @@ export class UserState {
     profileImg: "https://bit.ly/3hGSNB6",
     name: "Akshay Kumar",
     email: "yogeshdevaggarwal@gmail.com",
+    isSuspended: false,
   });
 
   static setState(newState: any) {
