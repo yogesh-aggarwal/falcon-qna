@@ -31,11 +31,6 @@ img {
   grid-column-gap: 2rem;
   height: calc(100vh - #{$navbarHeight});
 
-  .LeftSidebar {
-    border-right: 1px solid #ccc;
-    background: $primary;
-  }
-
   main {
     overflow-y: auto;
   }

@@ -8,6 +8,7 @@ import { GlobalStateInterface } from "./data/interfaces/data";
 /// Styles
 import "./scss/global.scss";
 import { Question } from "./components/routes/Question/Question";
+import { LeftSidebar } from "./components/global/LeftSidebar/LeftSidebar";
 
 class App extends React.Component {
   state: GlobalStateInterface = {};
@@ -23,7 +24,9 @@ class App extends React.Component {
       <Router>
         <Navbar />
         <div className="root">
-          <div className="LeftSidebar"></div>
+          <div>
+            <LeftSidebar />
+          </div>
           <main>
             <Switch>
               <Route path="/" exact component={Home} />
