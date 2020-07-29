@@ -25,18 +25,28 @@ img {
   -webkit-user-drag: none;
 }
 
+.root {
+  display: grid;
+  grid-template-columns: 4rem auto;
+  grid-column-gap: 2rem;
+  height: calc(100vh - #{$navbarHeight});
+
+  .LeftSidebar {
+    border-right: 1px solid #ccc;
+    background: $primary;
+  }
+
+  main {
+    overflow-y: auto;
+  }
+}
+
 .CardsContainer {
-  $sidebarWidth: 20vw;
-  margin-top: 2rem;
+  $rightSidebarWidth: 25vw;
+  padding-top: 2rem;
+  height: 100%;
 
   display: grid;
-  grid-template-columns: minmax(15rem, $sidebarWidth) auto minmax(
-      15rem,
-      $sidebarWidth
-    );
+  grid-template-columns: auto minmax(15rem, $rightSidebarWidth);
   grid-column-gap: 2rem;
-
-  .Cards {
-    max-width: calc(100vw - #{$sidebarWidth * 2});
-  }
 }

@@ -1,11 +1,12 @@
 @import "../../../scss/schemes";
 @import "../../../scss/tools.scss";
 
-.container {
+.Navbar {
   $backround: $primary;
   background: $backround;
   color: textColor($backround);
   padding: 0.8rem 2rem;
+  height: $navbarHeight;
 
   display: grid;
   grid-template-columns: 6rem auto;

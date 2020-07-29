@@ -22,10 +22,15 @@ class App extends React.Component {
     return (
       <Router>
         <Navbar />
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/question/:id" exact component={Question} />
-        </Switch>
+        <div className="root">
+          <div className="LeftSidebar"></div>
+          <main>
+            <Switch>
+              <Route path="/" exact component={Home} />
+              <Route path="/question/:id" exact component={Question} />
+            </Switch>
+          </main>
+        </div>
       </Router>
     );
   }

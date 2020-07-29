@@ -31,11 +31,10 @@ export class Question extends React.Component<Props> {
   render() {
     return (
       <div className="HomeComponentContainer CardsContainer">
-        <div className="LeftSidebar">Left Sidebar!</div>
         <div className="Cards">
           <QuestionCard id={this.id} />
         </div>
-        <div className="RightSidebar">Right Sidebar!</div>
+        <div className="Sidebar">Right Sidebar!</div>
       </div>
     );
   }

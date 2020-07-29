@@ -1,10 +1,12 @@
+/// Styles
+import "./Home.scss";
+
+/// Imports
 import React from "react";
 import { GlobalStateInterface } from "../../../data/interfaces/data";
 import { HomeQuestionCard } from "../../global/QuestionCard/Home/Card";
 import { State } from "../../../data/state";
-
-/// Styles
-import "./Home.scss";
+import { Chip, Avatar } from "@material-ui/core";
 
 export class Home extends React.Component {
   state: GlobalStateInterface = {};
@@ -18,7 +20,6 @@ export class Home extends React.Component {
   render() {
     return (
       <div className="HomeComponentContainer CardsContainer">
-        <div className="LeftSidebar">Left Sidebar!</div>
         <div className="Cards">
           {(() => {
             if (this.state.questions) {
@@ -30,7 +31,15 @@ export class Home extends React.Component {
             }
           })()}
         </div>
-        <div className="RightSidebar">Right Sidebar!</div>
+        <div className="Sidebar">
+          <Chip
+            avatar={<Avatar>M</Avatar>}
+            label="Primary clickable"
+            clickable
+            color="primary"
+            variant="outlined"
+          />
+        </div>
       </div>
     );
   }
