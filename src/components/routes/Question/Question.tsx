@@ -7,11 +7,10 @@ import {
   GlobalStateInterface,
 } from "../../../data/interfaces/data";
 import { State } from "../../../data/state";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, Link } from "react-router-dom";
 import { QuestionCard } from "../../global/QuestionCard/QuestionPage/Card";
 import { IconButton } from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
-import {} from "react-router/"
 
 interface Props {
   id: string;
@@ -39,9 +38,11 @@ export class Question extends React.Component<Props> {
       <div className="QuestionComponentContainer CardsContainer">
         <div className="Cards">
           <div className="BackIcon">
-            <IconButton>
-              <ArrowBack />
-            </IconButton>
+            <Link to="/">
+              <IconButton>
+                <ArrowBack />
+              </IconButton>
+            </Link>
           </div>
           <QuestionCard id={this.id} />
         </div>

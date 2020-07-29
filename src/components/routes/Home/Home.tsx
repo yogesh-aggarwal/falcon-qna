@@ -9,7 +9,7 @@ import {
 } from "../../../data/interfaces/data";
 import { HomeQuestionCard } from "../../global/QuestionCard/Home/Card";
 import { State } from "../../../data/state";
-import { Chip, Avatar } from "@material-ui/core";
+import { Chip } from "@material-ui/core";
 
 export class Home extends React.Component {
   state: GlobalStateInterface = {};
@@ -42,6 +42,7 @@ export class Home extends React.Component {
                   <Chip
                     className="tag"
                     label={tag.name}
+                    key={tag.name}
                     clickable
                     style={{ borderColor: tag.color }}
                     color="primary"
