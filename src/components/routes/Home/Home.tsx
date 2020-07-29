@@ -3,7 +3,10 @@ import "./Home.scss";
 
 /// Imports
 import React from "react";
-import { GlobalStateInterface } from "../../../data/interfaces/data";
+import {
+  GlobalStateInterface,
+  TagInterface,
+} from "../../../data/interfaces/data";
 import { HomeQuestionCard } from "../../global/QuestionCard/Home/Card";
 import { State } from "../../../data/state";
 import { Chip, Avatar } from "@material-ui/core";
@@ -32,13 +35,24 @@ export class Home extends React.Component {
           })()}
         </div>
         <div className="Sidebar">
-          <Chip
-            avatar={<Avatar>M</Avatar>}
-            label="Primary clickable"
-            clickable
-            color="primary"
-            variant="outlined"
-          />
+          {(() => {
+            if (this.state.tags) {
+              return this.state.tags.map((tag: TagInterface) => {
+                return (
+                  <Chip
+                    className="tag"
+                    label={tag.name}
+                    clickable
+                    style={{ borderColor: tag.color }}
+                    color="primary"
+                    variant="default"
+                  />
+                );
+              });
+            } else {
+              return <div></div>;
+            }
+          })()}
         </div>
       </div>
     );

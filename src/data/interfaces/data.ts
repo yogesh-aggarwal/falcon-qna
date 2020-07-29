@@ -1,3 +1,8 @@
+export interface TagInterface {
+  name: string;
+  color: string;
+}
+
 export interface VotesInterface {
   total?: number;
   upVoters?: Array<string>;
@@ -29,4 +34,5 @@ export interface GlobalStateInterface {
     [key: string]: QuestionInterface;
   };
   name?: string;
+  tags?: Array<TagInterface>;
 }

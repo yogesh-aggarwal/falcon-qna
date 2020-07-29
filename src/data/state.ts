@@ -27,6 +27,16 @@ export class State {
         },
       },
     },
+    tags: [
+      {
+        name: "C++",
+        color: "#004482",
+      },
+      {
+        name: "TypeScript",
+        color: "blue",
+      },
+    ],
   });
 
   static setState(newState: GlobalStateInterface) {

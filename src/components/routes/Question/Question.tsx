@@ -1,3 +1,6 @@
+/// Styles
+import "./Question.scss";
+
 import React from "react";
 import {
   QuestionInterface,
@@ -6,6 +9,9 @@ import {
 import { State } from "../../../data/state";
 import { RouteComponentProps } from "react-router-dom";
 import { QuestionCard } from "../../global/QuestionCard/QuestionPage/Card";
+import { IconButton } from "@material-ui/core";
+import { ArrowBack } from "@material-ui/icons";
+import {} from "react-router/"
 
 interface Props {
   id: string;
@@ -30,8 +36,13 @@ export class Question extends React.Component<Props> {
 
   render() {
     return (
-      <div className="HomeComponentContainer CardsContainer">
+      <div className="QuestionComponentContainer CardsContainer">
         <div className="Cards">
+          <div className="BackIcon">
+            <IconButton>
+              <ArrowBack />
+            </IconButton>
+          </div>
           <QuestionCard id={this.id} />
         </div>
         <div className="Sidebar">Right Sidebar!</div>
