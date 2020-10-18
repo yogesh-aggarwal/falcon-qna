@@ -5,7 +5,7 @@
   $backround: $primary;
   background: $backround;
   color: textColor($backround);
-  padding: 0.8rem 2rem;
+  padding: 0.7rem 2rem;
   height: $navbarHeight;
 
   display: grid;
@@ -30,24 +30,33 @@
     }
   }
 
-  .user {
+  .actions {
     display: flex;
     justify-content: flex-end;
 
-    .profile {
-      display: grid;
-      grid-template-columns: 2rem auto;
-      grid-column-gap: 0.5rem;
-      justify-content: center;
-      align-items: center;
+    .action {
+      margin-right: 1.5rem;
+    }
 
-      img {
-        width: 100%;
-        border-radius: 5rem;
-      }
+    .user {
+      display: flex;
+      justify-content: flex-end;
 
-      .name {
-        font-weight: 500;
+      .profile {
+        display: grid;
+        grid-template-columns: 2rem auto;
+        grid-column-gap: 0.5rem;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          width: 100%;
+          border-radius: 5rem;
+        }
+
+        .name {
+          font-weight: 500;
+        }
       }
     }
   }

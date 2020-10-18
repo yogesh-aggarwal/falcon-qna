@@ -9,6 +9,7 @@ import "./Navbar.scss";
 /// Assets
 import logo from "../../../assets/logo.png";
 import { Link } from "react-router-dom";
+import { Button } from "@material-ui/core";
 
 export class Navbar extends React.Component {
   state: UserInterface = {};
@@ -28,10 +29,16 @@ export class Navbar extends React.Component {
             <div className="text">Falcon</div>
           </div>
         </Link>
-        <div className="user">
-          <div className="profile">
-            <img src={this.state.profileImg} alt="" />
-            <div className="name">{this.state.name}</div>
+
+        <div className="actions">
+          <div className="action">
+            <Button variant="contained">Ask Question</Button>
+          </div>
+          <div className="user">
+            <div className="profile">
+              <img src={this.state.profileImg} alt="" />
+              <div className="name">{this.state.name}</div>
+            </div>
           </div>
         </div>
       </div>
