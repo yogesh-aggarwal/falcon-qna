@@ -1,0 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap");
+@import "./app/styles/theme";
+@import "./app/styles/tools.scss";
+
+$backround: $primary;
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", "Segoe UI", "Tahoma", "Geneva", "Verdana", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: unset;
+}
+
+img {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.root {
+  display: grid;
+  grid-template-columns: 4rem auto;
+  grid-column-gap: 2rem;
+  height: calc(100vh - #{$navbarHeight});
+
+  main {
+    overflow-y: auto;
+  }
+}
+
+.CardsContainer {
+  $rightSidebarWidth: 25vw;
+  padding-top: 2rem;
+  height: 100%;
+
+  display: grid;
+  grid-template-columns: auto minmax(15rem, $rightSidebarWidth);
+  grid-column-gap: 2rem;
+}

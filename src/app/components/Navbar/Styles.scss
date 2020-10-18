@@ -1,0 +1,63 @@
+@import "../../styles/theme";
+@import "../../styles/tools.scss";
+
+.Navbar {
+  $backround: $primary;
+  background: $backround;
+  color: textColor($backround);
+  padding: 0.7rem 2rem;
+  height: $navbarHeight;
+
+  display: grid;
+  grid-template-columns: 6rem auto;
+  align-items: center;
+
+  .logo {
+    display: grid;
+    grid-template-columns: 2rem auto;
+    grid-column-gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 100%;
+      background: #fff;
+      border-radius: 5rem;
+    }
+
+    .text {
+      font-weight: 600;
+    }
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+
+    .action {
+      margin-right: 1.5rem;
+    }
+
+    .user {
+      display: flex;
+      justify-content: flex-end;
+
+      .profile {
+        display: grid;
+        grid-template-columns: 2rem auto;
+        grid-column-gap: 0.5rem;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          width: 100%;
+          border-radius: 5rem;
+        }
+
+        .name {
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}

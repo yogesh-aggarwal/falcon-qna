@@ -1,0 +1,16 @@
+@import "../../styles/theme";
+
+.LeftSidebar {
+  border-right: 1px solid #ccc;
+  background: $primary;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .icon {
+    color: #fff;
+    margin-bottom: 0.2rem;
+  }
+}

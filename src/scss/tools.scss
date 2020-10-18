@@ -1,9 +1,0 @@
-@import "./schemes";
-
-@function textColor($background) {
-  @if lightness($background) > 80 {
-    @return $textDark;
-  } @else {
-    @return $textLight;
-  }
-}

@@ -1,0 +1,62 @@
+@import "../../styles/theme";
+
+.QuestionCardContainer {
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 5px #ccc;
+  margin-bottom: 2rem;
+  padding: 1rem 2rem;
+
+  .title {
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
+  $contentMarginTop: 0.2rem;
+
+  .contentHomePage {
+    margin-top: $contentMarginTop;
+    $nLines: 2;
+    $lineHeight: 1.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $nLines; /* number of lines to show */
+    line-height: $lineHeight; /* fallback */
+    max-height: calc(#{$lineHeight} * #{$nLines});
+  }
+
+  .contentQuestionPage {
+    margin-top: $contentMarginTop;
+  }
+
+  ._actions {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+
+    button {
+      text-transform: unset;
+    }
+
+    .votes {
+      display: flex;
+      align-items: center;
+
+      .count {
+        margin: 0 0.5rem;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .actionsHomePage {
+    @extend ._actions;
+    justify-content: space-between;
+  }
+
+  .actionsQuestionPage {
+    @extend ._actions;
+    // justify-content: space-between;
+  }
+}
