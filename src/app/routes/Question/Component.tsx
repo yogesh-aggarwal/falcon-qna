@@ -47,8 +47,7 @@ export class Question extends React.Component<Props> {
           </div>
           <QuestionCard id={this.id} />
 
-          
-          <div className="answers">
+          <div className="Answers">
             <AnswerCard
               answer={{
                 body: "Body",
@@ -58,7 +57,9 @@ export class Question extends React.Component<Props> {
             />
           </div>
         </div>
-        <div className="Sidebar">Right Sidebar!</div>
+        <div className="Sidebar">
+          <div className="Title">Related Questions</div>
+        </div>
       </div>
     );
   }
