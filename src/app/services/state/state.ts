@@ -78,8 +78,6 @@ export class State {
   });
 
   static setState(newState: GlobalStateInterface) {
-    console.log(State.state.value);
-    console.log(newState);
     State.state.next(ToolsService.deepMerge(State.state.value, newState));
   }
 }

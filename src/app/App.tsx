@@ -6,11 +6,13 @@ import { State } from "./services/state/state";
 import { GlobalStateInterface } from "./services/state/interfaces";
 import { Question } from "./routes/Question/Component";
 import { LeftSidebar } from "./components/LeftSidebar/Component";
+import { Data } from "./services/data/data";
 
 class App extends React.Component {
   state: GlobalStateInterface = {};
 
-  componentDidMount() {
+  async componentDidMount() {
+    await Data.prepareData();
     State.state.subscribe((state: GlobalStateInterface) => {
       this.setState(state);
     });
