@@ -1,3 +1,4 @@
+import { AuthService } from "../auth/auth";
 import { firestore } from "../firebase/firebase";
 import { QuestionInterface } from "../state/interfaces";
 import { State } from "../state/state";
@@ -5,6 +6,8 @@ import { State } from "../state/state";
 export class Data {
   static async prepareData() {
     let questions: { [key: string]: QuestionInterface } = {};
+
+    AuthService.fetchUser();
 
     (await firestore.collection("questions").get()).docs.forEach((doc) => {
       let question = doc.data() as QuestionInterface;

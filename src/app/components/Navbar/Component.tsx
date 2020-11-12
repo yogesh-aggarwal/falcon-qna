@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  GlobalStateInterface,
-  UserInterface,
-} from "../../services/state/interfaces";
+import { UserInterface } from "../../services/state/interfaces";
 import { UserState } from "../../services/state/userState";
 
 /// Styles
@@ -12,13 +9,14 @@ import "./Styles.scss";
 import logo from "../../../assets/logo.png";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
+import { AuthService } from "../../services/auth/auth";
 
 export class Navbar extends React.Component {
   state: UserInterface = {};
 
   componentDidMount() {
-    UserState.state.subscribe((state: GlobalStateInterface) => {
-      this.setState(state);
+    UserState.state.subscribe((user: UserInterface) => {
+      this.setState(user);
     });
   }
 
@@ -36,11 +34,14 @@ export class Navbar extends React.Component {
           <div className="action">
             <Button variant="contained">Ask Question</Button>
           </div>
-          <div className="user">
-            <div className="profile">
-              <img src={this.state.profileImg} alt="" />
-              <div className="name">{this.state.name}</div>
-            </div>
+          <div className="user" onClick={AuthService.signIn}>
+            {this.state.id && (
+              <div className="profile">
+                <img src={this.state.profileImg} alt="" />
+                <div className="name">{this.state.name}</div>
+              </div>
+            )}
+            {!this.state.id && <Button variant="contained">Login</Button>}
           </div>
         </div>
       </div>

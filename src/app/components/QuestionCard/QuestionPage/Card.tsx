@@ -24,6 +24,7 @@ interface PropsInterface {
 interface StateInterface {
   question?: QuestionInterface;
   userId?: string;
+  user?: UserInterface;
   isUserSuspended?: boolean;
 }
 
@@ -32,8 +33,9 @@ export class QuestionCard extends React.Component<
   StateInterface
 > {
   id: string;
-  state: StateInterface = {};
-  user: UserInterface = {};
+  state: StateInterface = {
+    user: {},
+  };
 
   constructor(props: PropsInterface) {
     super(props);
